@@ -15,4 +15,11 @@ db_name = "comp30830"
 
 #(wID, Temperature, Max,Min, Real_Feel,Wind,Speed, Description,Day, Date, Time)
 
-# all ints except status which is text
+# all ints except status which is text,Day, Date, Time and Description
+
+#if you could implement this line in a query to test whether the database exists and if not create it
+#SELECT 1 FROM bike_data.comp30830 LIMIT 1;
+
+#0 row(s) returned
+#if bike table does not exist it will throw a similar message
+#Error Code: 1146. Table 'bike_data.comp30830' doesn't exist
