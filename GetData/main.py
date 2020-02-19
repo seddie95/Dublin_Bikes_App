@@ -1,18 +1,12 @@
-'''
-Created on 13 Feb 2020
 
-@author: Dennis Kroner
-'''
-
+import requests
+import json
+import sys
+import mysql.connector
+from mysql.connector import Error
 
 def main():
-    
-    import requests
-    import json
-    import sys
-    import mysql.connector
-    from mysql.connector import Error
-    
+     
     # RDS Connection credentials
     host = "comp30830.cyn6ycrg3wxh.us-east-1.rds.amazonaws.com"
     user = "comp30830"
@@ -36,8 +30,6 @@ def main():
         
         # exit the program
         sys.exit()
-
-
 
     def getData(url):
         """Function to requests and Parse json data"""
@@ -190,21 +182,22 @@ def main():
       
     # function call to get data from JCDecaux
     bikeData = getData(url)
-  
+   
     # connection to database
     connection = mysql.connector.connect(host=host, database=db_name, user=user, password=password)
-  
+    
     # function call to fill DB with dynamic data
     updateDynBikeTbl(bikeData)
-       
+        
     # function call to fill DB with static data
     updateStatBikeTbl(bikeData)
-                    
+                     
     if (connection.is_connected()):
         cursor.close()
         connection.close() 
             
 if __name__ == '__main__':
+
     print("Started")
     main()
     print("Finished")
