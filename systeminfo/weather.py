@@ -77,7 +77,7 @@ def main():
                         Wind_Speed Double ,
                         Description TEXT,
                         Timestamp CHAR(10) NOT NULL,
-                        PRIMARY KEY (wID))"""
+                        PRIMARY KEY (wID,Timestamp))"""
     
                     print("Creating Table: " + tblName)
                     cursor = connection.cursor()
