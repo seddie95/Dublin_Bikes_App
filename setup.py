@@ -9,6 +9,7 @@ setup(name="GetData",
       install_requires=['requests', 'mysql-connector-python'],
       packages=['GetData'],
       entry_points={
-          'console_scripts': ['bikeScrape=GetData.main:main', 'weatherScrape=GetData.weather:main']
+          'console_scripts': ['bikeScrape=GetData.main:main',
+                              'weatherScrape=GetData.weather:main']
       }
       )
