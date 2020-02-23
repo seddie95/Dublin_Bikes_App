@@ -6,7 +6,8 @@ import mysql.connector
 from mysql.connector import Error
 
 def main():
-     
+    print("Started")
+
     # RDS Connection credentials
     host = "comp30830.cyn6ycrg3wxh.us-east-1.rds.amazonaws.com"
     user = "comp30830"
@@ -194,10 +195,11 @@ def main():
                      
     if (connection.is_connected()):
         cursor.close()
-        connection.close() 
+        connection.close()
+        print("Finished")
             
 if __name__ == '__main__':
 
-    print("Started")
+
     main()
-    print("Finished")
+
