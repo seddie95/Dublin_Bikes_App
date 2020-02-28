@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+<title>Finda Bike</title>
+</head>
+
+<body>
+<h1>Finda Bike Dublin</h1>
+
+<select name= stopID method="POST" >
+{% for data in datalist %}
+    <option value="{{data.Stop_Number}}" SELECTED>{{data.Stop_Number}}</option>"
+{% endfor %}
+</select>
+
+<select name= stopName method="GET" action="/">
+{% for data in datalist %}
+    <option value="{{data.Stop_Address}}" SELECTED>{{data.Stop_Address}}</option>"
+{% endfor %}
+
+</select>
+<input type="submit" text="Submit">
+
+<div id = "map"></div>
+<script>
+    function initMap() {
+        //get static data for bike stations using fetch
+        fetch('http://127.0.0.1:5000/static')
+            .then(function(response) {
+                return response.json();
+            }).then(function(obj) {
+                staticData = obj.available
+                console.log(staticData.length)
+
+                //setting the coordinates for the map
+                var location = {
+                    lat: 53.348071,
+                    lng: -6.268233
+                };
+
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 14,
+                    center: location
+                });
+                for (let i = 0; i < staticData.length; i++) {
+                    console.log(i)
+
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: parseFloat(staticData[i].Pos_Lat),
+                            lng: parseFloat(staticData[i].Pos_Lng)
+                        },
+                        map: map,
+                        title: staticData[i].Stop_Name,
+                        station_number: staticData[i].Stop_Number.toString()
+                    });
+                }
+
+            })
+            // catch used to test if something went wrong when parsing or in the network
+            .catch(function(error) {
+                console.error("Somethings wrong:", error);
+                console.error(error);
+            });
+
+    }
+</script>
+ <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5dFU2BP2XoXKi5vnrfvNqkAxJRXJQDBc&callback=initMap">
+ </script>
+
+
+
+
