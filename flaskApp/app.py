@@ -1,7 +1,15 @@
-from flask import Flask, g, jsonify, render_template, request, redirect,url_for
+from flask import Flask, g, jsonify, render_template
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
+from logging import FileHandler, WARNING
 
 app = Flask(__name__)
+
+# Create errorlog text-file to store all the non http errors
+if not app.debug:
+    file_handler = FileHandler('errorlog.txt')
+    file_handler.setLevel(WARNING)
+    app.logger.addHandler(file_handler)
 
 
 # function that connects to the RDS database using the credentials
@@ -11,88 +19,92 @@ def connect_to_database():
     return engine
 
 
-# function that gets the database
+# function that gets the database if it exists
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = connect_to_database()
     return db
 
+
+def getStatic(json=False):
+    """Function to retrieve the static data from the database and return it as either json or pass it to the
+    html using jinja for the purpose of displaying the map data."""
+    # call the function get_db to connect to the database
+    try:
+        engine = get_db()
+        datalist = []
+        # sql query that returns all of the static information form the RDS database
+        rows = engine.execute("SELECT * FROM BikeStatic;")
+        # for loop appends the rows to dictionary which will be inserted into the list datalist
+        for row in rows:
+            datalist.append(dict(row))
+        # if the datalist list is not empty it will render the template base.html and pass it the function datalist
+        # the datlist function will be used with jinja to populate the dropdown lists
+        if datalist:
+            if json:
+                return jsonify(available=datalist)
+            if not json:
+                return render_template('base.html', datalist=datalist)
+        else:
+            noStatic = "Error: No static data was found "
+            return render_template('base.html', noStatic=nostatic)
+
+    except OperationalError:
+        return '<h1> Problem connecting to the Database:</h1>' \
+               '<br><h2>Please sit tight and we will resolve this issue</h2>' \
+               '<br> <a href="/">Home</a>'
+
+
 # Route for the home page that renders the base.html template
 # gets the static data from the rds to populate the drop downs
 @app.route('/')
 def base():
-        try:
-            engine = get_db()
-            datalist = []
-            rows = engine.execute("SELECT * FROM BikeStatic;")
-            for row in rows:
-                datalist.append(dict(row))
-            if datalist:
-                #return jsonify(available=datalist)
-               return render_template('base.html', datalist=datalist)
-            else:
-                print("No Static Data exists")
-                return redirect('/')
-        except:
-            redirect('/')
+    return getStatic()
 
 
-
-
-# Route for 404 errors
-@app.errorhandler(404)
-# inbuilt function which takes error as parameter
-def not_found(e):
-    # defining function
-    return render_template("404.html")
-
+# Route to get the static data in a json format
+@app.route("/static")
+def staticJson():
+    return getStatic(json=True)
 
 
 # route for providing the dynamic information for a given station id
-@app.route("/<int:station_id>", methods=['GET', 'POST'])
-def get_dynamic():
-    if request.method == 'POST':
-        station_id = request.form['stopID']
-        try:
-            engine = get_db()
-            data = []
-            rows = engine.execute("SELECT * FROM BikeDynamic where Stop_Number = {} "
-                                  "order by Last_Update desc limit 1;".format(station_id))
+@app.route("/dynamic/<int:station_id>")
+def get_stations(station_id):
+    try:
+        engine = get_db()
+        data = []
+        # station id is passed into sql query.
+        rows = engine.execute(
+            "SELECT * FROM BikeDynamic where Stop_Number = {} order by Last_Update desc limit 1;".format(station_id))
+        for row in rows:
+            data.append(dict(row))
+        # test to see if the station is in the database by seeing if returned dictionary is empty
+        if data:
+            return jsonify(available=data)
+        else:
+            return '<h1>Station ID not found in Database</h2>'
 
-            for row in rows:
-                data.append(dict(row))
-            if data:
-
-                return jsonify(available=data)
-            else:
-                print("No such station id")
-                return redirect('/')
-        except:
-            redirect('/')
-
-    return redirect('/')
+    # OperationError states that the database does not exist
+    except OperationalError:
+        return '<h1> Problem connecting to the Database:</h1>' \
+               '<br><h2>Please sit tight and we will resolve this issue</h2>' \
+               '<br> <a href="/">Home</a>'
 
 
-@app.route("/static", methods=['GET', 'POST'])
-def get_static():
-    if request.method == 'GET':
-        try:
-            engine = get_db()
-            datalist = []
-            rows = engine.execute("SELECT * FROM BikeStatic;")
-            for row in rows:
-                datalist.append(dict(row))
-            if datalist:
-                return jsonify(available=datalist)
+# Error  Webpages
 
-            else:
-                print("No Static Data exists")
-                return redirect('/')
-        except:
-            redirect('/')
+# error handling for page not found
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
 
-    return redirect('/')
+
+# Server error
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('500.html')
 
 
 if __name__ == "__main__":
