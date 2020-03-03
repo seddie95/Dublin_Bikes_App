@@ -70,14 +70,16 @@ def staticJson():
 
 
 # route for providing the dynamic information for a given station id
-@app.route("/dynamic/<int:station_id>")
-def get_stations(station_id):
+@app.route("/dynamic")
+def get_stations():
     try:
         engine = get_db()
         data = []
         # station id is passed into sql query.
         rows = engine.execute(
-            "SELECT * FROM BikeDynamic where Stop_Number = {} order by Last_Update desc limit 1;".format(station_id))
+        # This sql query needs to be changed
+            "SELECT * FROM comp30830.BikeDynamic,comp30830.BikeStatic where comp30830.BikeDynamic.Stop_Number = "
+            "comp30830.BikeStatic.Stop_Number group by comp30830.BikeStatic.Stop_Number order by Last_Update desc;")
         for row in rows:
             data.append(dict(row))
         # test to see if the station is in the database by seeing if returned dictionary is empty
