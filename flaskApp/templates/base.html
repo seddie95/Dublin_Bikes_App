@@ -8,34 +8,55 @@
 </head>
 
 <body>
-<h1>Finda Bike Dublin</h1>
+<header>
+    <div id="date-time">Date and time will go here</div>
+    <h1>Finda Bike Dublin</h1>
+    <div id="sm-icons">SM icons will go here</div>
+</header>
 
-<select name=stopID method="POST">
-    {% for data in datalist %}
-    <option value="{{data.Stop_Number}}" SELECTED>{{data.Stop_Number}}</option>
-    "
-    {% endfor %}
-</select>
+<main>
 
-<select name=stopName method="GET" action="/">
-    {% for data in datalist %}
-    <option value="{{data.Stop_Address}}" SELECTED>{{data.Stop_Address}}</option>
-    "
-    {% endfor %}
+    <div id="selections">
 
-</select>
-<input type="submit" text="Submit">
-<img id="weatherIcon" src="/static//icons/Cloud.png" height="60" align="middle">
-<span id="temperature"></span>
-<div>{{noStatic}}</div>
-<div id="map"></div>
+        <select name=stopID method="POST">
+        {% for data in datalist %}
+        <option value="{{data.Stop_Number}}" SELECTED>{{data.Stop_Number}}</option>
+        "
+        {% endfor %}
+        </select>
 
-<script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
+        <select name=stopName method="GET" action="/">
+        {% for data in datalist %}
+        <option value="{{data.Stop_Address}}" SELECTED>{{data.Stop_Address}}</option>
+        "
+        {% endfor %}
+        </select>
 
-<script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
+        <input type="submit" text="Submit">
 
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5dFU2BP2XoXKi5vnrfvNqkAxJRXJQDBc&callback=initMap">
-</script>
+        <div id="radio-buttons">3 radio buttons will go here</div>
+    </div>
 
+    <div id="weather">Current weather info will go here, layered on top of map with a transparency effect
+    <img id="weatherIcon" src="/static//icons/Cloud.png" height="60" align="middle">
+    </div>
+    <div id="map">
 
+        <div>{{noStatic}}</div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
+
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5dFU2BP2XoXKi5vnrfvNqkAxJRXJQDBc&callback=initMap">
+        </script>
+    </div>
+
+    <div id="predictions">availability predictions will go here</div>
+
+</main>
+
+<footer>Footer: Various links and image credits will go here</footer>
+
+</body>
