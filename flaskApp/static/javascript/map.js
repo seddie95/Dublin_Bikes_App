@@ -1,6 +1,6 @@
    function initMap() {
        //get static data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/static')
+       fetch('http://127.0.0.1:5000/dynamic')
            .then(function (response) {
                return response.json();
                // use the static data to create dictionary
@@ -17,11 +17,23 @@
                    zoom: 13,
                    center: location
                });
-               //loop through static data to create markers for the map
-               for (let i = 0; i < staticData.length; i++) {
+               // create an infowindow
+               var infowindow = new google.maps.InfoWindow();
 
-                   // set the position of the markers using the longitude and latitude of the station
-                   var marker = new google.maps.Marker({
+               //loop through static data to create markers for the map
+               var marker,i;
+               for (i = 0; i < staticData.length; i++) {
+                   // set the bike icon to blue if  status is open or grey if closed
+
+                   var icon;
+                   if (staticData[i].Station_Status == 'OPEN') {
+                       icon = "/static//icons/bikeIcon.png";
+                   } else {
+                       icon = "/static//icons/closedIcon.png";
+                   }
+
+                   // set the  of the markers using the longitude and latitude of the station
+                    marker = new google.maps.Marker({
                        position: {
                            lat: parseFloat(staticData[i].Pos_Lat),
                            lng: parseFloat(staticData[i].Pos_Lng)
@@ -33,11 +45,26 @@
 
                        // set the icon of the to the bike icon  and scale it
                        icon: {
-                           url: "/static//icons/bikeIcon.png",
-                           scaledSize: new google.maps.Size(40, 40),
+                           url: icon,
+                           scaledSize: new google.maps.Size(40, 40)
                        },
-                       animation: google.maps.Animation.Drop
+                       animation: google.maps.Animation.DROP
                    });
+
+                    // add listener to zoom to the location of the marker and display content
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            return function() {
+                              map.setZoom(17);
+                              infowindow.setContent(
+                                            "Stop Name: " + staticData[i].Stop_Name + "<br>" +
+                                           "Stop ID: " + staticData[i].Stop_Number.toString() +"<br>" +
+                                           "Available Bikes: " + staticData[i].Available_Bikes.toString() +'<br>'+
+                                           "Available Spaces: " +staticData[i].Available_Spaces.toString() +'<br>'+
+                                           "Banking: " + staticData[i].Banking
+                                           );
+                              infowindow.open(map, marker);
+                            }
+                          })(marker, i));
 
                }
 
@@ -49,3 +76,4 @@
            });
 
    }
+
