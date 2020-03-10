@@ -3,12 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-    <!--Including jquery for the dropdown autocomplete functionality-->
-  <!--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
-
-   <!-- <script>$("select").combobox();</script>-->
-
 
     <title>Finda Bike</title>
 </head>
@@ -26,7 +20,7 @@
 
         <!-- Code for dropdown to select bike station-->
         <label for="stops">Choose a station or click on the map below:</label>
-        <select type="text" list="stops" name='stop' onselect="triggerMarker(value)">
+        <select id="stops-dd" list="stops" onchange="triggerMarker(value)">
         <datalist id="stops">
         {% for data in datalist %}
             <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
@@ -35,9 +29,11 @@
         </datalist>
         </select>
 
+        <!-- On selection of a dropdown item this function clicks on the corresponding marker on the map -->
         <script>
             function triggerMarker(stopNum){
-              ;
+              console.log("I am in the triggerMarker function, marker is number " + stopNum);
+              google.maps.event.trigger(markers[stopNum], "click");
         }
         </script>
 

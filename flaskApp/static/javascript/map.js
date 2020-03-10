@@ -1,4 +1,5 @@
-   function initMap() {
+var markers = [];
+function initMap() {
        //get static data for bike stations using fetch
        fetch('http://127.0.0.1:5000/dynamic')
            .then(function (response) {
@@ -21,10 +22,10 @@
                var infowindow = new google.maps.InfoWindow();
 
                //loop through static data to create markers for the map
-               var marker,i,selectedMarker;
+               var marker,i;
+
                for (i = 0; i < staticData.length; i++) {
                    // set the bike icon to blue if  status is open or grey if closed
-
                    var icon;
                    if (staticData[i].Station_Status == 'OPEN') {
                        icon = "/static//icons/bikeIcon.png";
@@ -43,32 +44,19 @@
                        title: staticData[i].Stop_Name,
                        station_number: staticData[i].Stop_Number.toString(),
 
-                       // set the icon of the to the bike icon  and scale it
+                       // set the icon of the to the bike icon and scale it
                        icon: {
                            url: icon,
                            scaledSize: new google.maps.Size(40, 40)
                        },
                        animation: google.maps.Animation.DROP
                    });
-
+                   // add each marker to markers array so they can be referred to individually
+                   markers[staticData[i].Stop_Number] = marker;
                     // add listener to zoom to the location of the marker and display content
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
-                 // zoom in on the marker selected
                               map.setZoom(17);
-
-                // Change the colour and size of the marker selected and return it to normal when new marker is clicked
-                              if (selectedMarker) {
-                                    selectedMarker.setIcon({
-                                    url: icon,
-                                    scaledSize: new google.maps.Size(40, 40)});
-                                    }
-                              marker.setIcon({
-                                    url: "/static//icons/selectBike.png",
-                                    scaledSize: new google.maps.Size(50, 50)});
-                              selectedMarker = marker;
-
-                    // Set the content of the info window to display the dynamic bike data
                               infowindow.setContent(
                                             "Stop Name: " + staticData[i].Stop_Name + "<br>" +
                                            "Stop ID: " + staticData[i].Stop_Number.toString() +"<br>" +
