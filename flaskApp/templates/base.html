@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <!--Including jquery for the dropdown autocomplete functionality-->
+  <!--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+   <!-- <script>$("select").combobox();</script>-->
+
 
     <title>Finda Bike</title>
 </head>
@@ -18,21 +24,22 @@
 
     <div id="selections">
 
-        <select name=stopID method="POST">
+        <!-- Code for dropdown to select bike station-->
+        <label for="stops">Choose a station or click on the map below:</label>
+        <select type="text" list="stops" name='stop' onselect="triggerMarker(value)">
+        <datalist id="stops">
         {% for data in datalist %}
-        <option value="{{data.Stop_Number}}" SELECTED>{{data.Stop_Number}}</option>
+            <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
         "
         {% endfor %}
+        </datalist>
         </select>
 
-        <select name=stopName method="GET" action="/">
-        {% for data in datalist %}
-        <option value="{{data.Stop_Address}}" SELECTED>{{data.Stop_Address}}</option>
-        "
-        {% endfor %}
-        </select>
-
-        <input type="submit" text="Submit">
+        <script>
+            function triggerMarker(stopNum){
+              ;
+        }
+        </script>
 
         <div id="radio-buttons">3 radio buttons will go here</div>
     </div>
