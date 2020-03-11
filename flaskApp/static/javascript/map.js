@@ -1,4 +1,10 @@
+//Global variables
 var markers = [];
+var allStations=[];
+var availableStands = [];
+var availableBikes= [];
+var map;
+
 function initMap() {
        //get static data for bike stations using fetch
        fetch('http://127.0.0.1:5000/dynamic')
@@ -14,7 +20,7 @@ function initMap() {
                    lng: -6.268233
                };
                // set the map to be equal to the div with id "map"
-               var map = new google.maps.Map(document.getElementById("map"), {
+                map = new google.maps.Map(document.getElementById("map"), {
                    zoom: 13,
                    center: location
                });
@@ -50,8 +56,20 @@ function initMap() {
                        },
                        animation: google.maps.Animation.DROP
                    });
-                   // add each marker to markers array so they can be referred to individually
-                   markers[staticData[i].Stop_Number] = marker;
+                    //add each marker to markers array so they can be referred to individually
+                    markers[staticData[i].Stop_Number] = marker;
+                    allStations.push(marker);
+
+                   //add the markers with available bikes to the availableBikes array
+                   if (staticData[i].Available_Bikes >0){
+                        availableBikes.push(marker);
+                    }
+
+                    //add the markers with available Stands to the availableStands array
+                    if (staticData[i].Available_Spaces >0){
+                        availableStands.push(marker);
+                    }
+
                     // add listener to zoom to the location of the marker and display content
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
@@ -92,3 +110,36 @@ function initMap() {
 
    }
 
+//-----------------------------------------------------------
+// Below are the functions to hide the dynamic data depending on available bikes or stands
+
+// shows or hides  all of the markers on the map
+function setMapOnAll(map) {
+    for (var i = 0; i < allStations.length; i++) {
+        allStations[i].setMap(map);
+    }
+}
+
+// Shows all of the markers currently in the array.
+function showMarkers() {
+setMapOnAll(map);
+}
+
+// Hide stations where there are no available bikes.
+function showAvailableBikes() {
+showBikes(map,availableBikes);
+}
+
+// Hide stations where there are no available stands.
+function showAvailableStands() {
+showBikes(map,availableStands);
+}
+
+// shows all of the markers in the selected array while hiding the others not in the array
+function showBikes(map,array) {
+    setMapOnAll(null);
+    for (var i = 0; i < array.length; i++) {
+        array[i].setMap(map);
+    }
+}
+//-----------------------------------------------------------
