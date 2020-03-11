@@ -21,12 +21,12 @@
         <!-- Code for dropdown to select bike station-->
         <label for="stops">Choose a station or click on the map below:</label>
         <select id="stops-dd" list="stops" onchange="triggerMarker(value)">
-        <datalist id="stops">
-        {% for data in datalist %}
-            <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
-        "
-        {% endfor %}
-        </datalist>
+            <datalist id="stops">
+                {% for data in datalist %}
+                <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
+                "
+                {% endfor %}
+            </datalist>
         </select>
 
         <!-- On selection of a dropdown item this function clicks on the corresponding marker on the map -->
@@ -35,28 +35,41 @@
               console.log("I am in the triggerMarker function, marker is number " + stopNum);
               google.maps.event.trigger(markers[stopNum], "click");
         }
+
         </script>
 
-        <div id="radio-buttons">3 radio buttons will go here</div>
-    </div>
+        <!--        here is the radio buttons for  selecting the data to be shown-->
+        <div id="radioButtons">
+            <input onclick="showMarkers();" type=radio id="Show All Markers" name="Display Markers"
+                   value="Show All Markers">
+            <label for="Show All Markers"> All Stations</label><br>
 
-    <div id="weather">Current weather info will go here, layered on top of map with a transparency effect
-    <img id="weatherIcon" src="/static//icons/Cloud.png" height="60" align="middle">
-    </div>
-    <div id="map">
+            <input onclick="showAvailableBikes();" type=radio id="Hide Stands" name="Display Markers"
+                   value="Hide Stands">
+            <label for="Hide Stands">Available Bikes</label><br>
 
-        <div>{{noStatic}}</div>
+            <input onclick="showAvailableStands();" type=radio id="Hide Bikes" name="Display Markers"
+                   value="Hide Bikes">
+            <label for="Hide Bikes">Available Spaces</label><br>
+        </div>
 
-        <script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
+        <div id="weather">Current weather info will go here, layered on top of map with a transparency effect
+            <img id="weatherIcon" src="/static//icons/Cloud.png" height="60" align="middle">
+        </div>
+        <div id="map">
 
-        <script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
+            <div>{{noStatic}}</div>
 
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5dFU2BP2XoXKi5vnrfvNqkAxJRXJQDBc&callback=initMap">
-        </script>
-    </div>
+            <script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
 
-    <div id="predictions">availability predictions will go here</div>
+            <script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
+
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5dFU2BP2XoXKi5vnrfvNqkAxJRXJQDBc&callback=initMap">
+            </script>
+        </div>
+
+        <div id="predictions">availability predictions will go here</div>
 
 </main>
 
