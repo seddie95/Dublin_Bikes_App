@@ -61,7 +61,7 @@ function initMap() {
                                url: icon,
                                scaledSize: new google.maps.Size(40, 40)
                            },
-                           animation: google.maps.Animation.DROP
+                           // animation: google.maps.Animation.DROP
                        });
                         //add each marker to markers array so they can be referred to individually
                         markers[staticData[i].Stop_Number] = marker;
@@ -81,7 +81,7 @@ function initMap() {
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                                 return function() {
                      // zoom in on the marker selected
-                                  map.setZoom(17);
+                                  map.setZoom(14);
 
                     // Change the colour and size of the marker selected and return it to normal when new marker is clicked
                                   if (selectedMarker) {
@@ -91,11 +91,13 @@ function initMap() {
                                         }
                                   marker.setIcon({
                                         url: "/static//icons/selectBike.png",
-                                        scaledSize: new google.maps.Size(50, 50)});
+                                        scaledSize: new google.maps.Size(70, 70)});
                                   selectedMarker = marker;
 
+                                  var date = new Date()
                         // Set the content of the info window to display the dynamic bike data
                                   infowindow.setContent(
+                                                "Last Update: " + date.toUTCString() + "<br>" +
                                                 "Stop Name: " + staticData[i].Stop_Name + "<br>" +
                                                "Stop ID: " + staticData[i].Stop_Number.toString() +"<br>" +
                                                "Available Bikes: " + staticData[i].Available_Bikes.toString() +'<br>'+
@@ -117,11 +119,11 @@ function initMap() {
                console.error("Somethings wrong:", error);
                console.error(error);
            });
-
+    // call the function every minute to update the information
+    setInterval(initMap,60000)
    }
 
-// call the function every minute to update the information
-setInterval(initMap,60000)
+
 
 //-----------------------------------------------------------
 // Below are the functions to hide the dynamic data depending on available bikes or stands

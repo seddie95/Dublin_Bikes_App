@@ -26,6 +26,7 @@ function fetchWeather() {
             return response.json();
         }).then(function (obj) {
             // select the weather data from the objects
+            console.log(obj)
             weathertype = obj.weather[0].main
             tempVal = obj.main.temp
             temp = parseInt(tempVal).toString() + "°c"

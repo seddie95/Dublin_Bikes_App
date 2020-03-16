@@ -48,7 +48,7 @@ def getStatic(json=False):
                 return render_template('base.html', datalist=datalist)
         else:
             noStatic = "Error: No static data was found "
-            return render_template('base.html', noStatic=nostatic)
+            return render_template('base.html', noStatic=noStatic)
 
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
@@ -75,14 +75,23 @@ def get_stations():
     try:
         engine = get_db()
         data = []
-        # station id is passed into sql query.
-        rows = engine.execute(
-        # This sql query needs to be changed
-            "SELECT * FROM comp30830.BikeDynamic,comp30830.BikeStatic where comp30830.BikeDynamic.Stop_Number = "
-            "comp30830.BikeStatic.Stop_Number group by comp30830.BikeStatic.Stop_Number order by Last_Update desc;")
+
+        SQLquery = """SELECT dd.Stop_Number, dd.Bike_Stands, dd.Available_Spaces,
+                            dd.Available_Bikes, dd.Station_Status, dd.Last_Update,
+                            sd.Stop_Name, sd.Banking, sd.Pos_Lat, sd.Pos_Lng
+                            FROM comp30830.BikeDynamic as dd,comp30830.BikeStatic as sd
+                            WHERE dd.Stop_Number = sd.Stop_Number AND (dd.Stop_Number,dd.Last_Update) IN
+                                    (SELECT Stop_Number as SN, MAX(Last_Update) as LU
+                                    FROM comp30830.BikeDynamic
+                                    GROUP BY Stop_Number
+                                    ORDER BY Last_Update desc);"""
+
+        rows = engine.execute(SQLquery)
+
         for row in rows:
             data.append(dict(row))
         # test to see if the station is in the database by seeing if returned dictionary is empty
+
         if data:
             return jsonify(available=data)
         else:
