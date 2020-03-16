@@ -36,6 +36,24 @@ function initMap() {
 
                     //loop through static data to create markers for the map
                     var marker,i,selectedMarker;
+
+                    console.log(location);
+                    // marker for current position or default position
+                    marker = new google.maps.Marker({
+                        position: {
+                           lat: parseFloat(location.lat),
+                           lng: parseFloat(location.lng)
+                        },
+                        map: map,
+                        // give the markers a title of the stop name and number
+                        title: "Current Position",
+                        // set the icon of the to the bike icon and scale it
+                        icon: {
+                           url: "/static/icons/pin.png",
+                           scaledSize: new google.maps.Size(30, 30)
+                        }
+                    });
+
                     for (i = 0; i < staticData.length; i++) {
                         // set the bike icon to blue if  status is open or grey if closed
                         var icon;
