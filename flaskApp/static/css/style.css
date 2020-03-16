@@ -11,12 +11,12 @@ header{
         height: 150px;
         color: black;
         border-bottom: black solid 1px;
-        background-color: ghostwhite;
+        background-color: dodgerblue;
 }
 
 header a{
         text-decoration: none;
-        color: dodgerblue;
+        color: white;
 }
 
 #titleClock{
@@ -30,6 +30,7 @@ header a{
         font-size: 40px;
         font-weight: bold;
         padding: 10px 20px;
+        color: white;
 }
 
 #sm-icons{
@@ -46,7 +47,7 @@ header a{
         height: 25px;
         font-size: 20px;
         text-decoration: none;
-        color: dodgerblue;
+        color: white;
         padding: 2px;
         margin: 4px;
 }
@@ -54,6 +55,7 @@ header a{
 #date-time{
         padding: 10px 20px;
         font-weight: bold;
+        color: white;
 }
 
 

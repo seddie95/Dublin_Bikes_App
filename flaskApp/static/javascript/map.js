@@ -53,6 +53,33 @@ function initMap() {
                         }
                     });
 
+                    // marker for current position or default position
+                    google.maps.event.addListener(marker, 'click', (function(marker) {
+                                return function() {
+
+                                    // zoom in on the marker selected
+                                    map.setZoom(14);
+
+                                    // center selected marker
+                                    map.setCenter(marker.position);
+
+                                    // when new marker is clicked back to default
+                                    if (selectedMarker) {
+                                        selectedMarker.setIcon({
+                                        url: icon,
+                                        scaledSize: new google.maps.Size(40, 40)});
+                                    }
+
+                                    marker.setIcon({
+                                        url: "/static/icons/pin.png",
+                                        scaledSize: new google.maps.Size(30, 30)});
+
+                                    selectedMarker = marker;
+                                    infowindow.close();
+                                }
+                              })(marker, i));
+                    markers[0] = marker;
+
                     for (i = 0; i < staticData.length; i++) {
                         // set the bike icon to blue if  status is open or grey if closed
                         var icon;
@@ -69,7 +96,6 @@ function initMap() {
                                lng: parseFloat(staticData[i].Pos_Lng)
                            },
                            map: map,
-
 
                            // give the markers a title of the stop name and number
                            title: staticData[i].Stop_Name,
@@ -100,6 +126,7 @@ function initMap() {
                         // add listener to zoom to the location of the marker and display content
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                                 return function() {
+
                                     // zoom in on the marker selected
                                     map.setZoom(15);
 
@@ -108,14 +135,20 @@ function initMap() {
 
                                     // Change the colour and size of the marker selected and return it to normal when new marker is clicked
                                     if (selectedMarker) {
-                                        selectedMarker.setIcon({
-                                        url: icon,
-                                        scaledSize: new google.maps.Size(40, 40)});
+                                        if (selectedMarker.title == "Current Position"){
+                                            selectedMarker.setIcon({
+                                                url: "/static/icons/pin.png",
+                                                scaledSize: new google.maps.Size(30, 30)});
+                                        } else{
+                                            selectedMarker.setIcon({
+                                                url: icon,
+                                                scaledSize: new google.maps.Size(40, 40)});
+                                        }
                                     }
 
                                     marker.setIcon({
                                         url: "/static//icons/selectBike.png",
-                                        scaledSize: new google.maps.Size(70, 70)});
+                                        scaledSize: new google.maps.Size(60, 60)});
 
                                     selectedMarker = marker;
 
@@ -134,6 +167,7 @@ function initMap() {
                               })(marker, i));
                     }
                     firstTime= false;
+                    console.log(markers);
                }
            })
            // catch used to test if something went wrong when parsing or in the network
