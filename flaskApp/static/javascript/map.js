@@ -150,6 +150,12 @@ function initMap() {
 //-----------------------------------------------------------
 // Below are the functions to hide the dynamic data depending on available bikes or stands
 
+function triggerMarker(stopNum){
+    google.maps.event.trigger(markers[stopNum], "click");
+
+}
+
+
 // shows or hides  all of the markers on the map
 function setMapOnAll(map) {
     for (var i = 0; i < allStations.length; i++) {

@@ -92,8 +92,8 @@ def get_stations():
 
         for row in rows:
             data.append(dict(row))
-        # test to see if the station is in the database by seeing if returned dictionary is empty
 
+        # test to see if the station is in the database by seeing if returned dictionary is empty
         if data:
             return jsonify(available=data)
         else:

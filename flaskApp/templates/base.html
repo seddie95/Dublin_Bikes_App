@@ -18,12 +18,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-
-    <title>Find a Bike</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Dublin Bike</title>
 </head>
 
 <body onload="startTime()">
- <header>
+<header>
     <div id="titleClock">
         <div id="date-time"></div>
         <div id="title">WE LOVE <a href="" target="" class="fa fa-bicycle"></a></div>
@@ -83,7 +83,7 @@
                         <select id="stops-dd" onchange="triggerMarker(value);">
                             <option value="default" selected disabled>ID | Address</option>
 
-                            {% for data in staticData %}
+                            {% for data in datalist %}
                             <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
                             {% endfor %}
                         </select>
