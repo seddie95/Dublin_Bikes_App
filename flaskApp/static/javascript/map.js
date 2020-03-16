@@ -167,7 +167,6 @@ function initMap() {
                               })(marker, i));
                     }
                     firstTime= false;
-                    console.log(markers);
                }
            })
            // catch used to test if something went wrong when parsing or in the network
