@@ -12,36 +12,70 @@ image_dict = {
     'Dust': "/static//icons/Haze.png",
     'Fog': "/static//icons/Haze.png",
     'Sand': "/static//icons/Haze.png",
-    'Dust': "/static//icons/Haze.png",
     'Ash': "/static//icons/Haze.png",
     'Squall': "/static//icons/Haze.png",
-}
-
-
+};
 
 function fetchWeather() {
+
     // function to call the weather api and display weather icons and temperature in html
     fetch('http://api.openweathermap.org/data/2.5/weather?id=7778677&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric')
         .then(function (response) {
             return response.json();
         }).then(function (obj) {
-            // select the weather data from the objects
-            console.log(obj)
-            weathertype = obj.weather[0].main
-            tempVal = obj.main.temp
-            temp = parseInt(tempVal).toString() + "°c"
 
-            // display the weather icon that correspodns to the weather type
+            // select the weather data from the objects
+            var weathertype = obj.weather[0].main;
+
+            var tempVal = obj.main.temp;
+            var temp = parseInt(tempVal).toString() + "°c";
+            tempVal = obj.main.feels_like;
+            var tempFeeling = parseInt(tempVal).toString() + "°c";
+
+            var humidityVal = obj.main.humidity;
+            var humidity = parseInt(humidityVal).toString() + "%";
+
+            var windVal = obj.wind.speed;
+            var wind = parseInt(windVal).toString() + "Km/h";
+
+            var date = new Date(obj.sys.sunrise * 1000);
+            // Hours part from the timestamp
+            var hours = date.getHours();
+            // Minutes part from the timestamp
+            var minutes = "0" + date.getMinutes();
+            // Seconds part from the timestamp
+            var seconds = "0" + date.getSeconds();
+            // Will display time in 10:30:23 format
+            var sunrise = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+            var date = new Date(obj.sys.sunset * 1000);
+            // Hours part from the timestamp
+            var hours = date.getHours();
+            // Minutes part from the timestamp
+            var minutes = "0" + date.getMinutes();
+            // Seconds part from the timestamp
+            var seconds = "0" + date.getSeconds();
+            // Will display time in 10:30:23 format
+            sunset = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+            document.getElementById("sunriseVal").innerHTML = sunrise;
+            document.getElementById("sunsetVal").innerHTML = sunset;
+            document.getElementById("temperatureVal").innerHTML = temp;
+            document.getElementById("tempFeelingVal").innerHTML = tempFeeling;
+            document.getElementById("humidityVal").innerHTML = humidity;
+            document.getElementById("windVal").innerHTML = wind;
+
+            // display the weather icon that corresponds to the weather type
             if (weathertype in image_dict) {
                 document.getElementById("weatherIcon").src = image_dict[weathertype];
-
             }
             // if the weather type is not available display clouds by default
             else {
                 document.getElementById("weatherIcon").src = image_dict.Clouds;
             }
-            // display the temperature by updating the html of the span with id "temperature"
-            document.getElementById("temperature").innerHTML = temp;
         })
+
+    //update weather every 5 minutes
+    setTimeout(fetchWeather, 60000*5);
 }
-fetchWeather()
+

@@ -37,7 +37,6 @@ function initMap() {
                     //loop through static data to create markers for the map
                     var marker,i,selectedMarker;
 
-                    console.log(location);
                     // marker for current position or default position
                     marker = new google.maps.Marker({
                         position: {
