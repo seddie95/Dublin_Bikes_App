@@ -1,3 +1,215 @@
- #map {height: 500px;
-        width:600px;
-        margin:15px}
+* {
+        box-sizing: border-box;
+}
+
+body{
+        margin: 0;
+        min-width: 1300px;
+}
+
+header{
+        height: 150px;
+        color: black;
+        border-bottom: black solid 1px;
+        background-color: ghostwhite;
+}
+
+header a{
+        text-decoration: none;
+        color: dodgerblue;
+}
+
+#titleClock{
+        float: left;
+        width: 95%;
+        height: 145px;
+}
+
+#title{
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        padding: 10px 20px;
+}
+
+#sm-icons{
+        padding: 0px 4px;
+        text-align: right;
+        float: right;
+        height: 145px;
+        width: 5%;
+        max-width: 50px;
+}
+
+#sm-icons a{
+        width: 25px;
+        height: 25px;
+        font-size: 20px;
+        text-decoration: none;
+        color: dodgerblue;
+        padding: 2px;
+        margin: 4px;
+}
+
+#date-time{
+        padding: 10px 20px;
+        font-weight: bold;
+}
+
+
+main{
+        display: table;
+        margin: 0px 50px;
+        padding: 10px 0px;
+        /*min-width: 1200px;*/
+}
+
+#selections{
+        display: table;
+        width: 1200px;
+}
+
+#stationSelect{
+        display: table;
+        width: 40%;
+        margin: 2px 0px;
+}
+
+#stationSelect div{
+        float: left;
+        margin-right: 10px;
+}
+
+#stationSelect, #radioButtons{
+        float: left;
+}
+
+
+#radioButtons{
+        display: table;
+        width: 60%;
+        font-weight: bold;
+        font-size: 12px;
+        float: left;
+}
+
+#radioButtons div{
+        float: left;
+        margin: 2px 5px;
+        padding: 2px;
+}
+
+#dataDisplay{
+        display: table;
+}
+
+
+#currentWeather{
+        display: table;
+        width: 1200px;
+}
+
+#sunrise ,#sunset, #temperature, #tempFeeling,
+#wind,#humidity{
+        display: table;
+        width: 14%;
+        float: left;
+        padding: 5px 10px;
+}
+
+#weather{
+        display: table;
+        width: 16%;
+        padding: 5px 10px;
+}
+
+#weather img{
+        margin-left: 30px;
+        width: 40px;
+}
+
+#sunrise img,
+#sunset img,
+#temperature img,
+#tempFeeling img,
+#wind img,
+#humidity img {
+        width: 30px;
+        padding: 4px;
+}
+
+
+#sunrise div,
+#sunset div,
+#temperature div,
+#tempFeeling div,
+#wind div,
+#humidity div {
+        display: table;
+        padding: 4px;
+}
+
+#sunrise img, #sunrise div,
+#sunset img, #sunset div,
+#temperature img, #temperature div,
+#temperature2 img, #temperature2 div,
+#tempFeeling img, #tempFeeling div,
+#wind img, #wind  div,
+#humidity img, #humidity div {
+        float: left;
+}
+
+
+#map {
+        height: 500px;
+        width: 1200px;
+        margin: 5px 0px
+}
+
+
+
+
+footer #info {
+    background-color: rgb(30, 30, 30);
+    padding: 20px 0px;
+    width: 100%;
+}
+
+footer table {
+    color: rgb(255, 255, 255);
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 20px;
+}
+
+footer table td {
+    font-size: 18px;
+}
+
+footer table th {
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+}
+
+footer #disclaimer {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 15px 0px;
+    font-size: 14px;
+    font-family: sans-serif;
+    width: 100%;
+}
+
+footer p:first-child {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+footer #disclaimer span:hover,
+footer table td span:hover {
+    text-decoration-line: underline;
+    cursor: pointer;
+}

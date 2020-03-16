@@ -33,14 +33,16 @@ def getStatic(json=False):
     # call the function get_db to connect to the database
     try:
         engine = get_db()
+
         datalist = []
         # sql query that returns all of the static information form the RDS database
         rows = engine.execute("SELECT * FROM BikeStatic;")
         # for loop appends the rows to dictionary which will be inserted into the list datalist
         for row in rows:
             datalist.append(dict(row))
+
         # if the datalist list is not empty it will render the template base.html and pass it the function datalist
-        # the datlist function will be used with jinja to populate the dropdown lists
+        # the datalist function will be used with jinja to populate the dropdown lists
         if datalist:
             if json:
                 return jsonify(available=datalist)
