@@ -47,10 +47,10 @@ def getStatic(json=False):
             if json:
                 return jsonify(available=datalist)
             if not json:
-                return render_template('base.html', datalist=datalist)
+                return render_template('index.html', datalist=datalist)
         else:
             noStatic = "Error: No static data was found "
-            return render_template('base.html', noStatic=noStatic)
+            return render_template('index.html', noStatic=noStatic)
 
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
