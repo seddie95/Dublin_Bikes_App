@@ -10,8 +10,7 @@ body{
 header{
         height: 150px;
         color: black;
-        border-bottom: black solid 1px;
-        background-color: dodgerblue;
+        background-color: #4169B9;
 }
 
 header a{
@@ -29,7 +28,7 @@ header a{
         text-align: center;
         font-size: 40px;
         font-weight: bold;
-        padding: 10px 20px;
+        padding: 0px 0px 10px 0px;
         color: white;
 }
 
@@ -53,7 +52,7 @@ header a{
 }
 
 #date-time{
-        padding: 10px 20px;
+        padding: 10px 20px 0px 20px;
         font-weight: bold;
         color: white;
 }
