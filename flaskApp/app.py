@@ -65,14 +65,8 @@ def base():
     return getStatic()
 
 
-# Route to get the static data in a json format
-@app.route("/static")
-def staticJson():
-    return getStatic(json=True)
-
-
 # route for providing the dynamic information for a given station id
-@app.route("/dynamic")
+@app.route("/dynamic", methods=['POST'])
 def get_stations():
     try:
         engine = get_db()

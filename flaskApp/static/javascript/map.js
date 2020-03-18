@@ -10,7 +10,16 @@ let firstTime = true;
 
 function initMap() {
        //get static data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/dynamic')
+       fetch('http://127.0.0.1:5000/dynamic',{
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(""),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+
+       })
            .then(function (response) {
                return response.json();
                // use the static data to create dictionary
