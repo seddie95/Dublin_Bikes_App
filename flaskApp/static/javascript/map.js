@@ -16,50 +16,24 @@ var infowindow2;
 //variables for direction to markers
 var directionsService,directionsRenderer,selectedMarker;
 
+//set default location
+var defaultLocation;
 
 // //user position
-// var userLocation;
+ var userLocation;
 
 //sets the zoom level for the initial viewing of the map
 let firstTime = true;
 
 //-----------------------------------------------------------
-// get the location of the user and set it as userLocation
-//getLocation();
-
-//function getLocation(){
-//    // Try HTML5 geolocation.
-//    if (navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function(position) {
-//          userLocation = {
-//                lat: position.coords.latitude,
-//                lng: position.coords.longitude
-//             };
-//        })
-//    } else {
-//    // Display error message if the browser doesn't support geolocation
-//    console.log("Error! Browser does not support geolocation");
-//    }
-//
-//    // call the function is empty on the userLocation object
-//    if(isEmpty(userLocation)) {
-//        // if the userLocation variable is empty set the coordinates
-//        userLocation = {
-//                lat: 53.348071,
-//                lng: -6.268233
-//            };
-//        }
-//}
-////-----------------------------------------------------------
-//
-//// function taken from https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
-//function isEmpty(obj) {
-//    for(var key in obj) {
-//        if(obj.hasOwnProperty(key))
-//            return false;
-//    }
-//    return true;
-//}
+// function taken from https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 //-----------------------------------------------------------
 
 function initMap() {
@@ -121,18 +95,18 @@ function initMap() {
 
                     if(navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
-                            var pos = {
+                            userLocation = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude
                             };
 
-                            map.setCenter(pos);
+                            map.setCenter(userLocation);
 
-                            const latlng = new google.maps.LatLng(pos.lat, pos.lng);
+                            const latlng = new google.maps.LatLng(userLocation.lat, userLocation.lng);
                             markers[0].setPosition(latlng);
                         }, function() {
                             //setting the coordinates for the centre of the  map
-                           const defaultLocation = {
+                            defaultLocation = {
                                lat: 53.348071,
                                lng: -6.268233
                            };
@@ -316,6 +290,12 @@ function showBikes(map,array) {
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
   function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
+        // call the function is empty on the userLocation object
+        if(isEmpty(userLocation)) {
+            // if the userLocation variable is empty set the coordinates
+            userLocation = defaultLocation;
+            }
+        //Calculate distance from users location or default
         directionsService.route(
             {
               origin: userLocation,
