@@ -17,8 +17,8 @@ var infowindow2;
 var directionsService,directionsRenderer,selectedMarker;
 
 
-//user position
-var userLocation;
+// //user position
+// var userLocation;
 
 //sets the zoom level for the initial viewing of the map
 let firstTime = true;
@@ -87,35 +87,26 @@ function initMap() {
                return response.json();
                // use the static data to create dictionary
            }).then(function (obj) {
-               staticData = obj.available
-
-
-               //set user location
-                userLocation = {
-                lat: 53.348071,
-                lng: -6.268233
-            };
+               staticData = obj.available;
 
                // set the zoom level for the first time receiving the data
                if (firstTime){
                     // set the map to be equal to the div with id "map"
                     map = new google.maps.Map(document.getElementById("map"), {
                        zoom: 14,
-                       center: userLocation
                     });
 
-                     // render the bicycle route
-                     directionsRenderer.setMap(map);
+                    // render the bicycle route
+                    directionsRenderer.setMap(map);
 
                     // create an infowindow to store the dynamic data
-                     infowindow = new google.maps.InfoWindow();
+                    infowindow = new google.maps.InfoWindow();
 
                     //loop through static data to create markers for the map
                     var i;
 
                     // marker for current position or default position
                     marker = new google.maps.Marker({
-                        position:userLocation,
                         map: map,
                         // give the markers a title of the stop name and number
                         title: "Current Position",
@@ -125,6 +116,33 @@ function initMap() {
                            scaledSize: new google.maps.Size(30, 30)
                         }
                     });
+
+                    markers[0] = marker;
+
+                    if(navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+
+                            map.setCenter(pos);
+
+                            const latlng = new google.maps.LatLng(pos.lat, pos.lng);
+                            markers[0].setPosition(latlng);
+                        }, function() {
+                            //setting the coordinates for the centre of the  map
+                           const defaultLocation = {
+                               lat: 53.348071,
+                               lng: -6.268233
+                           };
+
+                           map.setCenter(defaultLocation);
+
+                           const latlng = new google.maps.LatLng(defaultLocation.lat, defaultLocation.lng);
+                           markers[0].setPosition(latlng);
+                        });
+                    }
 
                     // marker for current position or default position
                     google.maps.event.addListener(marker, 'click', (function(marker) {
@@ -150,13 +168,12 @@ function initMap() {
                                     selectedMarker = marker;
                                     infowindow.close();
                                 }
-                              })(marker, i));
-                    markers[0] = marker;
+                    })(marker, i));
 
                     for (i = 0; i < staticData.length; i++) {
                         // set the bike icon to blue if  status is open or grey if closed
                         var icon;
-                        if (staticData[i].Station_Status == 'OPEN') {
+                        if (staticData[i].Station_Status === 'OPEN') {
                            icon = "/static//icons/bikeIcon.png";
                         } else {
                            icon = "/static//icons/closedIcon.png";
@@ -209,7 +226,7 @@ function initMap() {
 
                                     // Change the colour and size of the marker selected and return it to normal when new marker is clicked
                                     if (selectedMarker) {
-                                        if (selectedMarker.title == "Current Position"){
+                                        if (selectedMarker.title === "Current Position"){
                                             selectedMarker.setIcon({
                                                 url: "/static/icons/pin.png",
                                                 scaledSize: new google.maps.Size(30, 30)});
@@ -226,7 +243,7 @@ function initMap() {
 
                                     selectedMarker = marker;
 
-                                    var date = new Date()
+                                    var date = new Date();
                                     // Set the content of the info window to display the dynamic bike data
                                     infowindow.setContent(
                                                 "Last Update: " + date.toUTCString() + "<br>" +
@@ -306,31 +323,28 @@ function showBikes(map,array) {
               travelMode: 'BICYCLING'
             },
             function(response, status) {
-              if (status === 'OK') {
-              // obtain the distance and duration data from the object
-             var duration = response.routes[0].legs[0].duration.text;
-             var distance = response.routes[0].legs[0].distance.text;
+                if (status === 'OK') {
+                    // obtain the distance and duration data from the object
+                    var duration = response.routes[0].legs[0].duration.text;
+                    var distance = response.routes[0].legs[0].distance.text;
 
-                // display the polyline response on the map
-                directionsRenderer.setDirections(response);
-                // close the main infowindows
-                infowindow.close();
+                    // display the polyline response on the map
+                    directionsRenderer.setDirections(response);
+                    // close the main infowindows
+                    infowindow.close();
 
-                //close the travel infowindow if it exists
-                if(infowindow2){
-                    infowindow2.close();
-                }
-                // create new infowindows to display the distance and duration
-                infowindow2 = new google.maps.InfoWindow();
-                infowindow2.setContent( "<b>"+duration+"</b>"+ "<br>" +  distance+ " ");
-                infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
-                infowindow2.open(map);
-
+                    //close the travel infowindow if it exists
+                    if(infowindow2){
+                        infowindow2.close();
+                    }
+                    // create new infowindows to display the distance and duration
+                    infowindow2 = new google.maps.InfoWindow();
+                    infowindow2.setContent( "<b>"+duration+"</b>"+ "<br>" +  distance+ " ");
+                    infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
+                    infowindow2.open(map);
               } else {
                 window.alert('Directions request failed due to ' + status);
               }
-
             });
-
       }
 
