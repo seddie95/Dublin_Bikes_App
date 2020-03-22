@@ -25,41 +25,41 @@ let firstTime = true;
 
 //-----------------------------------------------------------
 // get the location of the user and set it as userLocation
-getLocation();
+//getLocation();
 
-function getLocation(){
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-             };
-        })
-    } else {
-    // Display error message if the browser doesn't support geolocation
-    console.log("Error! Browser does not support geolocation");
-    }
-
-    // call the function is empty on the userLocation object
-    if(isEmpty(userLocation)) {
-        // if the userLocation variable is empty set the coordinates
-        userLocation = {
-                lat: 53.348071,
-                lng: -6.268233
-            };
-        }
-}
-//-----------------------------------------------------------
-
-// function taken from https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-}
+//function getLocation(){
+//    // Try HTML5 geolocation.
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(function(position) {
+//          userLocation = {
+//                lat: position.coords.latitude,
+//                lng: position.coords.longitude
+//             };
+//        })
+//    } else {
+//    // Display error message if the browser doesn't support geolocation
+//    console.log("Error! Browser does not support geolocation");
+//    }
+//
+//    // call the function is empty on the userLocation object
+//    if(isEmpty(userLocation)) {
+//        // if the userLocation variable is empty set the coordinates
+//        userLocation = {
+//                lat: 53.348071,
+//                lng: -6.268233
+//            };
+//        }
+//}
+////-----------------------------------------------------------
+//
+//// function taken from https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
+//function isEmpty(obj) {
+//    for(var key in obj) {
+//        if(obj.hasOwnProperty(key))
+//            return false;
+//    }
+//    return true;
+//}
 //-----------------------------------------------------------
 
 function initMap() {
@@ -88,6 +88,13 @@ function initMap() {
                // use the static data to create dictionary
            }).then(function (obj) {
                staticData = obj.available
+
+
+               //set user location
+                userLocation = {
+                lat: 53.348071,
+                lng: -6.268233
+            };
 
                // set the zoom level for the first time receiving the data
                if (firstTime){
