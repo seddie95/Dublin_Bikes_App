@@ -26,15 +26,6 @@ var defaultLocation;
 let firstTime = true;
 
 //-----------------------------------------------------------
-// function taken from https://coderwall.com/p/_g3x9q/how-to-check-if-javascript-object-is-empty
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-}
-//-----------------------------------------------------------
 
 function initMap() {
         //setup variables to show the route to the markers
@@ -56,7 +47,7 @@ function initMap() {
                 "content-type": "application/json"
             })
 
-       })   // change teh response to a json object
+       })   // change the response to a json object
            .then(function (response) {
                return response.json();
                // use the static data to create dictionary
@@ -289,42 +280,40 @@ function showBikes(map,array) {
 
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
-  function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
-        // call the function is empty on the userLocation object
-        if(isEmpty(userLocation)) {
-            // if the userLocation variable is empty set the coordinates
-            userLocation = defaultLocation;
-            }
-        //Calculate distance from users location or default
-        directionsService.route(
-            {
-              origin: userLocation,
-              destination: marker.position,
-              travelMode: 'BICYCLING'
-            },
-            function(response, status) {
-                if (status === 'OK') {
-                    // obtain the distance and duration data from the object
-                    var duration = response.routes[0].legs[0].duration.text;
-                    var distance = response.routes[0].legs[0].distance.text;
+function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
+       // check to see if user location is define otherwise use the default value
+       if(userLocation == undefined){
+        userLocation = defaultLocation;
+       }
+    directionsService.route(
+        {
+          origin: userLocation,
+          destination: marker.position,
+          travelMode: 'BICYCLING'
+        },
+        function(response, status) {
+            if (status === 'OK') {
+                // obtain the distance and duration data from the object
+                var duration = response.routes[0].legs[0].duration.text;
+                var distance = response.routes[0].legs[0].distance.text;
 
-                    // display the polyline response on the map
-                    directionsRenderer.setDirections(response);
-                    // close the main infowindows
-                    infowindow.close();
+                // display the polyline response on the map
+                directionsRenderer.setDirections(response);
+                // close the main infowindows
+                infowindow.close();
 
-                    //close the travel infowindow if it exists
-                    if(infowindow2){
-                        infowindow2.close();
-                    }
-                    // create new infowindows to display the distance and duration
-                    infowindow2 = new google.maps.InfoWindow();
-                    infowindow2.setContent( "<b>"+duration+"</b>"+ "<br>" +  distance+ " ");
-                    infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
-                    infowindow2.open(map);
-              } else {
-                window.alert('Directions request failed due to ' + status);
-              }
-            });
-      }
+                //close the travel infowindow if it exists
+                if(infowindow2){
+                    infowindow2.close();
+                }
+                // create new infowindows to display the distance and duration
+                infowindow2 = new google.maps.InfoWindow();
+                infowindow2.setContent( "<b>"+duration+"</b>"+ "<br>" +  distance+ " ");
+                infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
+                infowindow2.open(map);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+}
 
