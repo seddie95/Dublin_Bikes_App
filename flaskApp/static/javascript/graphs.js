@@ -1,6 +1,6 @@
 var WeeklyGraphData;
 var HourlyGraphData;
-
+var ID;
 
 function getGraphData(){
 
@@ -54,8 +54,7 @@ function getGraphData(){
 
 //test graph!
 function updateGraphs(stationID){
-    console.log(HourlyGraphData);
-    console.log(WeeklyGraphData);
+    ID = stationID;
 
     // Load the Visualization API and the piechart package.
     google.charts.load("current", {"packages":["corechart"]});
@@ -65,15 +64,23 @@ function updateGraphs(stationID){
 
     function drawChart(){
         // // Create our data table out of JSON data loaded from server.
-        // var data = new google.visualization.DataTable(staticData);
+        var data = new google.visualization.DataTable();
 
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]);
+        data.addColumn('string', 'Weekday');
+        data.addColumn('number', 'Available_Bikes');
+        data.addColumn('number', 'Available_Spaces');
+
+        for (var i=0;i<WeeklyGraphData.length;i++){
+            if(WeeklyGraphData[i].Stop_Number == ID) {
+                data.addRows([
+                    [
+                    WeeklyGraphData[i].Weekday,
+                    parseFloat(WeeklyGraphData[i].Available_Bikes),
+                    parseFloat(WeeklyGraphData[i].Available_Spaces)
+                    ]
+                ]);
+            }
+        }
 
         var options = {
           title: 'Station ID: ' + stationID.toString(),
@@ -81,6 +88,7 @@ function updateGraphs(stationID){
           legend: { position: 'bottom' }
         };
 
+        console.log(data);
 
 
         // Instantiate and draw our chart, passing in some options.
