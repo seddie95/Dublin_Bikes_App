@@ -109,6 +109,8 @@ def get_weeklyGraphData():
         data = []
 
         timeData = "%H:%i"
+        weekNumData = "%w"
+
         SQLquery = """SELECT Stop_Number,
                         CONVERT(avg(Available_Spaces),char) as Available_Spaces,
                         CONVERT(avg(Available_Bikes),char) as Available_Bikes,
@@ -116,8 +118,8 @@ def get_weeklyGraphData():
                         AS Weekday FROM comp30830.BikeDynamic 
                         WHERE from_unixtime(Last_Update, %s) <= '00:30' OR from_unixtime(Last_Update, %s) >= '05:30'
                         GROUP BY Stop_Number,Weekday
-                        ORDER BY Stop_Number asc, Weekday asc;"""
-        rows = engine.execute(SQLquery, [timeData, timeData])
+                        ORDER BY Stop_Number asc, from_unixtime(Last_Update, %s) asc;"""
+        rows = engine.execute(SQLquery, [timeData, timeData, weekNumData])
 
         for row in rows:
             data.append(dict(row))
