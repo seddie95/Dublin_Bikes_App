@@ -109,17 +109,18 @@ def get_weeklyGraphData():
         data = []
 
         timeData = "%H:%i"
-        weekNumData = "%w"
 
         SQLquery = """SELECT Stop_Number,
-                        CONVERT(avg(Available_Spaces),char) as Available_Spaces,
-                        CONVERT(avg(Available_Bikes),char) as Available_Bikes,
-                        DAYNAME(FROM_UNIXTIME(last_update)) 
-                        AS Weekday FROM comp30830.BikeDynamic 
-                        WHERE from_unixtime(Last_Update, %s) <= '00:30' OR from_unixtime(Last_Update, %s) >= '05:30'
+                            CONVERT(avg(Available_Spaces),char) as Available_Spaces,
+                            CONVERT(avg(Available_Bikes),char) as Available_Bikes,
+                            DAYNAME(FROM_UNIXTIME(last_update)) AS Weekday 
+                        FROM comp30830.BikeDynamic 
+                        WHERE 
+                            from_unixtime(Last_Update, %s) <= '00:30' OR 
+                            from_unixtime(Last_Update, %s) >= '05:30'
                         GROUP BY Stop_Number,Weekday
-                        ORDER BY Stop_Number asc, from_unixtime(Last_Update, %s) asc;"""
-        rows = engine.execute(SQLquery, [timeData, timeData, weekNumData])
+                        ORDER BY Stop_Number asc, WEEKDAY(from_unixtime(Last_Update)) asc;"""
+        rows = engine.execute(SQLquery, [timeData, timeData])
 
         for row in rows:
             data.append(dict(row))
@@ -148,7 +149,6 @@ def get_hourlyGraphData():
 
         timeData = "%H:%i"
         weekData = "%W"
-        weekNumData = "%w"
         hourData = "%H"
 
         SQLquery = """SELECT Stop_Number, DAYNAME(FROM_UNIXTIME(last_update)) as Weekday,
@@ -165,10 +165,10 @@ def get_hourlyGraphData():
                             from_unixtime(Last_Update, %s)
                         ORDER BY
                             Stop_Number asc,
-                            from_unixtime(Last_Update, %s) asc,
+                            WEEKDAY(from_unixtime(Last_Update)) asc,
                             Hours asc;"""
 
-        rows = engine.execute(SQLquery, [hourData,timeData,timeData,weekData,hourData,weekNumData])
+        rows = engine.execute(SQLquery, [hourData,timeData,timeData,weekData,hourData])
 
         for row in rows:
             data.append(dict(row))

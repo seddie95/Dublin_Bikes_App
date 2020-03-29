@@ -237,7 +237,7 @@ function initMap() {
                console.error(error);
            });
         // call the function every minute to update the information
-        setInterval(initMap,60000);
+        // setInterval(initMap,60000);
 }
 
 
