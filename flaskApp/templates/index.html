@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='/javascript/graphs.js') }}"></script>
+
     <title>Dublin Bike</title>
 {% endblock %}
 
@@ -107,10 +112,6 @@
             </div>
 
             <div id="map">
-                <script type="text/javascript" src="{{ url_for('static', filename='/javascript/map.js') }}"></script>
-
-                <script type="text/javascript" src="{{ url_for('static', filename='/javascript/weather.js') }}"></script>
-
                 <script async defer
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa9dak2Kr9KQGGwO556T2g3m-j0ohYX64&callback=initMap">
                 </script>
@@ -118,6 +119,7 @@
         </div>
 
         <div id="predictions">
+            <div id="weeklyStation"></div>
             <a href="" target="_blank" class="fa fa-line-chart"></a>
             <a href="" target="_blank" class="fa fa-bar-chart"></a>
             <a href="" target="_blank" class="fa fa-pie-chart"></a>
@@ -172,5 +174,7 @@
     }
 
     fetchWeather();
+    getGraphData();
+
 </script>
 {% endblock %}

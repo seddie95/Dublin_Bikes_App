@@ -100,6 +100,58 @@ def get_stations():
                '<br> <a href="/">Home</a>'
 
 
+
+# route for providing the graph data
+@app.route("/graph", methods=['POST'])
+def get_graphData():
+    try:
+        engine = get_db()
+        data = []
+
+        SQLquery = """SELECT Stop_Number, from_unixtime(Last_Update, '%W') as Weekday,
+                        AVG(Available_Bikes) as AvgBike, AVG(Available_Spaces) as AvgSpace
+                        FROM comp30830.BikeDynamic
+                        WHERE from_unixtime(Last_Update, '%H:%i') <= '00:30' OR from_unixtime(Last_Update, '%H:%i') >= '05:30'
+                        GROUP BY Stop_Number,from_unixtime(Last_Update, '%W')
+                        ORDER BY Stop_Number asc, from_unixtime(Last_Update, '%w') asc;"""
+
+        # SQLquery2 = """SELECT Stop_Number, from_unixtime(Last_Update, '%W') as Weekday,
+        #                     from_unixtime(Last_Update, '%H') as Hours,
+        #                     avg(Available_Bikes) as AvgBike,
+        #                     avg(Available_Spaces) as AvgSpace
+        #                 FROM comp30830.BikeDynamic
+        #                 WHERE
+        #                     from_unixtime(Last_Update, '%H:%i') <= '00:30' OR
+        #                     from_unixtime(Last_Update, '%H:%i') >= '05:30'
+        #                 GROUP BY
+        #                     Stop_Number,
+        #                     from_unixtime(Last_Update, '%W'),
+        #                     from_unixtime(Last_Update, '%H')
+        #                 ORDER BY
+        #                     Stop_Number asc,
+        #                     from_unixtime(Last_Update, '%w') asc,
+        #                     Hours asc;"""
+
+
+        rows = engine.execute(SQLquery)
+
+        for row in rows:
+            data.append(dict(row))
+
+        # test to see if the station is in the database by seeing if returned dictionary is empty
+        if data:
+            return jsonify(available=data)
+        else:
+            return '<h1>Station ID not found in Database</h2>'
+
+    # OperationError states that the database does not exist
+    except OperationalError:
+        return '<h1> Problem connecting to the Database:</h1>' \
+               '<br><h2>Please sit tight and we will resolve this issue</h2>' \
+               '<br> <a href="/">Home</a>'
+
+
+
 # Error  Webpages
 
 # error handling for page not found
