@@ -1,10 +1,11 @@
-var graphData;
+var WeeklyGraphData;
+var HourlyGraphData;
 
 
 function getGraphData(){
 
-       //get static data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/graph',{
+       //get weekly data for bike stations using fetch
+       fetch('http://127.0.0.1:5000/WeeklyGraph',{
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
@@ -16,10 +17,27 @@ function getGraphData(){
                return response.json();
                // use the static data to create dictionary
            }).then(function (obj) {
-           graphData = obj.available;
+           WeeklyGraphData = obj.available;
 
-           console.log(graphData);
 
+
+           });
+
+
+       //get weekly data for bike stations using fetch
+       fetch('http://127.0.0.1:5000/HourlyGraph',{
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(""),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+       }).then(function (response) {
+               return response.json();
+               // use the static data to create dictionary
+           }).then(function (obj) {
+           HourlyGraphData = obj.available;
 
            });
 
@@ -29,10 +47,15 @@ function getGraphData(){
 
 
 
+
+
+
+
+
 //test graph!
 function updateGraphs(stationID){
-    // console.log(staticData);
-
+    console.log(HourlyGraphData);
+    console.log(WeeklyGraphData);
 
     // Load the Visualization API and the piechart package.
     google.charts.load("current", {"packages":["corechart"]});
