@@ -38,7 +38,7 @@ function getGraphData(){
            });
 
         // call the function every minute to update the information
-        // setInterval(getGraphData,60000);
+        setTimeout(getGraphData,60000);
 }
 
 
