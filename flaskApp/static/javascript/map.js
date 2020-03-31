@@ -1,17 +1,18 @@
 //Global variables
 var markers = [];
 var marker;
-var allStations=[];
+var allStations = [];
 var availableStands = [];
-var availableBikes= [];
+var availableBikes = [];
 var map;
+var staticData;
+
 
 // popup that displays realtime information
 var infowindow;
 
 // popup that displays travel time and distance to user
 var infowindow2;
-
 
 //variables for direction to markers
 var directionsService,directionsRenderer,selectedMarker;
@@ -20,7 +21,7 @@ var directionsService,directionsRenderer,selectedMarker;
 var defaultLocation;
 
 // //user position
- var userLocation;
+var userLocation;
 
 //sets the zoom level for the initial viewing of the map
 let firstTime = true;
@@ -47,8 +48,7 @@ function initMap() {
                 "content-type": "application/json"
             })
 
-       })   // change the response to a json object
-           .then(function (response) {
+       }).then(function (response) {
                return response.json();
                // use the static data to create dictionary
            }).then(function (obj) {
@@ -183,6 +183,9 @@ function initMap() {
 
                                 return function() {
 
+                                    //station id or station data to update the graphs
+                                    updateGraphs(staticData[i].Stop_Number);
+
                                     // zoom in on the marker selected
                                     map.setZoom(15);
 
@@ -208,14 +211,16 @@ function initMap() {
 
                                     selectedMarker = marker;
 
-                                    var date = new Date();
+
+                                    var last_update =parseInt(staticData[i].Last_Update)*1000;
                                     // Set the content of the info window to display the dynamic bike data
                                     infowindow.setContent(
-                                                "Last Update: " + date.toUTCString() + "<br>" +
-                                                "Stop Name: " + staticData[i].Stop_Name + "<br>" +
-                                               "Stop ID: " + staticData[i].Stop_Number.toString() +"<br>" +
-                                               "Available Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
-                                               "Available Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
+                                                "Updated: " + new Date(last_update).toLocaleDateString()+ " " +
+                                                new Date(last_update).toLocaleTimeString() + "<br>" +
+                                                "Station: " + staticData[i].Stop_Name + "<br>" +
+                                               "Station ID: " + staticData[i].Stop_Number.toString() +"<br>" +
+                                               "Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
+                                               "Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
                                                "Banking: " + staticData[i].Banking +"<br>"+
                                               "<a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,selectedMarker)' href='javascript:void(0);'>get route</a>"
                                                );
@@ -231,10 +236,9 @@ function initMap() {
                console.error("Somethings wrong:", error);
                console.error(error);
            });
-    // call the function every minute to update the information
-    setInterval(initMap,60000)
+        // call the function every minute to update the information
+        setTimeout(initMap,60000);
 }
-
 
 
 //-----------------------------------------------------------

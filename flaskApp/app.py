@@ -100,6 +100,94 @@ def get_stations():
                '<br> <a href="/">Home</a>'
 
 
+
+# route for providing the graph data
+@app.route("/WeeklyGraph", methods=['POST'])
+def get_weeklyGraphData():
+    try:
+        engine = get_db()
+        data = []
+
+        timeData = "%H:%i"
+
+        SQLquery = """SELECT Stop_Number,
+                            CONVERT(avg(Available_Spaces),char) as Available_Spaces,
+                            CONVERT(avg(Available_Bikes),char) as Available_Bikes,
+                            DAYNAME(FROM_UNIXTIME(last_update)) AS Weekday 
+                        FROM comp30830.BikeDynamic 
+                        WHERE 
+                            from_unixtime(Last_Update, %s) <= '00:30' OR 
+                            from_unixtime(Last_Update, %s) >= '05:30'
+                        GROUP BY Stop_Number,Weekday
+                        ORDER BY Stop_Number asc, WEEKDAY(from_unixtime(Last_Update)) asc;"""
+        rows = engine.execute(SQLquery, [timeData, timeData])
+
+        for row in rows:
+            data.append(dict(row))
+
+        # test to see if the station is in the database by seeing if returned dictionary is empty
+        if data:
+            return jsonify(available=data)
+        else:
+            return '<h1>Station ID not found in Database</h2>'
+
+    # OperationError states that the database does not exist
+    except OperationalError:
+        return '<h1> Problem connecting to the Database:</h1>' \
+               '<br><h2>Please sit tight and we will resolve this issue</h2>' \
+               '<br> <a href="/">Home</a>'
+
+
+
+
+# route for providing the graph data
+@app.route("/HourlyGraph", methods=['POST'])
+def get_hourlyGraphData():
+    try:
+        engine = get_db()
+        data = []
+
+        timeData = "%H:%i"
+        weekData = "%W"
+        hourData = "%H"
+
+        SQLquery = """SELECT Stop_Number, DAYNAME(FROM_UNIXTIME(last_update)) as Weekday,
+                            from_unixtime(Last_Update, %s) as Hours,
+                            CONVERT(avg(Available_Bikes),char) as AvgBike,
+                            CONVERT(avg(Available_Spaces),char) as AvgSpace
+                        FROM comp30830.BikeDynamic
+                        WHERE
+                            from_unixtime(Last_Update, %s) <= '00:30' OR
+                            from_unixtime(Last_Update, %s) >= '05:30'
+                        GROUP BY
+                            Stop_Number,
+                            from_unixtime(Last_Update, %s),
+                            from_unixtime(Last_Update, %s)
+                        ORDER BY
+                            Stop_Number asc,
+                            WEEKDAY(from_unixtime(Last_Update)) asc,
+                            Hours asc;"""
+
+        rows = engine.execute(SQLquery, [hourData,timeData,timeData,weekData,hourData])
+
+        for row in rows:
+            data.append(dict(row))
+
+        # test to see if the station is in the database by seeing if returned dictionary is empty
+        if data:
+            return jsonify(available=data)
+        else:
+            return '<h1>Station ID not found in Database</h2>'
+
+    # OperationError states that the database does not exist
+    except OperationalError:
+        return '<h1> Problem connecting to the Database:</h1>' \
+               '<br><h2>Please sit tight and we will resolve this issue</h2>' \
+               '<br> <a href="/">Home</a>'
+
+
+
+
 # Error  Webpages
 
 # error handling for page not found
