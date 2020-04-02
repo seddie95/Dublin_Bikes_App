@@ -53,9 +53,19 @@
                        return response.json();
                        // use the static data to create dictionary
                    }).then(function (obj) {
-                   predictions = obj.predictions;
-                   console.log(predictions);
-
+                   prediction = obj.predictions;
+                   /// Display bike availability prediction
+                   console.log(prediction);
+                   if (prediction < 0) {
+                       prediction = 1;
+                   }
+                   if (prediction == 1) {
+                       document.getElementById("predictionOutput").innerHTML = "There should be around " +
+                       prediction + " bike available at this station on " + date + " at " + time;
+                   } else {
+                       document.getElementById("predictionOutput").innerHTML = "There should be around " +
+                       prediction + " bikes available at this station on " + date + " at " + time;
+                   }
                    });
 
         })
