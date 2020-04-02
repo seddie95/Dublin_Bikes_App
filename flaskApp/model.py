@@ -7,6 +7,8 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 import joblib
+import warnings
+warnings.filterwarnings('ignore')  # Ignore pandas warnings
 
 def getBikeAndWeatherData():
     """Function that retrieves and joins both Weather and Dynamic Bike data from our database and returns a
