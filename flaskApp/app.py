@@ -1,7 +1,11 @@
-from flask import Flask, g, jsonify, render_template
+from flask import Flask, g, jsonify, render_template,request
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
+import time
+from datetime import datetime
+from flaskApp.prediction_to_X_test import getWeatherForecast
+
 
 app = Flask(__name__)
 
@@ -185,6 +189,17 @@ def get_hourlyGraphData():
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
                '<br> <a href="/">Home</a>'
 
+
+# get the prediction data from the forms to be used for model predictions
+@app.route('/predict', methods=['POST'])
+def getPredictionData():
+    pDate = request.args.get('date')
+    pTime = request.args.get('time')
+    station = request.args.get('station')
+    timeString = str(pDate + " " + pTime)
+    timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
+    print(getWeatherForecast(station, timestamp))
+    return jsonify(predictions=timestamp)
 
 
 
