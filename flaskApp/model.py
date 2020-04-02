@@ -116,7 +116,7 @@ def predictBikeAvailability(df):
         dfm = dfm.drop(['Description', 'Weekend'], 1)
         dfm = pd.get_dummies(dfm)  # one-hot encoding of categorical features
         # excluding targets and timestamp from input features
-        X = dfm.drop(['Available_Spaces', 'Available_Bikes', 'Last_Update'], 1)
+        X = dfm.drop(['Available_Spaces', 'Available_Bikes', 'Last_Update', 'Stop_Number', 'index'], 1)
         Y = dfm[['Available_Bikes']]  # target outcome to predict
 
         # Generate time series cross validation splits (using default of 5 splits)
