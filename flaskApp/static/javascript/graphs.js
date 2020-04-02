@@ -38,7 +38,7 @@ function getGraphData(){
            });
 
         // call the function every minute to update the information
-        setTimeout(getGraphData,60000);
+        // setTimeout(getGraphData,60000);
 }
 
 
@@ -77,7 +77,7 @@ function updateGraphs(stationID){
 
         var options = {
             title: 'Station ID: ' + stationID.toString(),
-            width: 800,
+            width: 500,
             height: 200,
             curveType: 'function',
             legend: { position: 'bottom' }
@@ -131,8 +131,8 @@ function updateGraphs(stationID){
             'containerId': 'chart_div',
             'options': {
                 'title': 'Station ID: ' + stationID.toString(),
-                'width': 800,
-                'height': 400,
+                'width': 500,
+                'height': 200,
                 'legend': 'bottom',
             },
             'view': {'columns': [1,2,3]}

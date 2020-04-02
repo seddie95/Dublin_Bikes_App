@@ -4,7 +4,7 @@
 
 body{
         margin: 0;
-        min-width: 1300px;
+        min-width: 1624px;
 }
 
 header{
@@ -59,19 +59,19 @@ main{
         display: table;
         margin-left: auto;
         margin-right: auto;
+        margin: 0px 20px;
         padding: 10px 0px;
         color: #2f2f2f
 }
 
 #selections{
         display: table;
-        width: 1200px;
+        width: 1080px;
 }
 
 #stationSelect{
         display: table;
         width: 40%;
-        margin: 2px 0px;
 }
 
 #stationSelect div{
@@ -98,12 +98,7 @@ main{
 
 #radioButtons div{
         float: left;
-        margin: 2px 5px;
         padding: 2px;
-}
-
-#dataDisplay{
-        display: table;
 }
 
 
@@ -111,7 +106,7 @@ main{
         display: table;
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
-        width: 1200px;
+        width: 1080px;
 }
 
 #sunrise ,#sunset, #temperature, #tempFeeling,
@@ -166,8 +161,8 @@ main{
 
 
 #map {
-        height: 500px;
-        width: 1200px;
+        height: 450px;
+        width: 1080px;
         margin: 5px 0px
 }
 
@@ -218,4 +213,17 @@ footer #disclaimer span:hover,
 footer table td span:hover {
     text-decoration-line: underline;
     cursor: pointer;
+}
+
+
+#graphs {
+    height: 460px;
+}
+
+#main_table {
+    border-spacing: 0px;
+}
+
+#dashboard_div {
+    margin-top: 15px;
 }

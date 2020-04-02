@@ -33,43 +33,50 @@
 </header>
 
 <main>
-        <div id="currentWeather">
-            <div id="sunrise">
-                <img id="sunriseIcon" src="/static/icons/sunrise.png">
-                <div id="sunriseVal"></div>
-            </div>
+    <table id="main_table">
+        <tr>
+            <td id="td_weather">
+            <div id="currentWeather">
+                <div id="sunrise">
+                    <img id="sunriseIcon" src="/static/icons/sunrise.png">
+                    <div id="sunriseVal"></div>
+                </div>
 
-            <div id="sunset">
-                <img id="sunsetIcon" src="/static/icons/sunset.png">
-                <div id="sunsetVal"></div>
-            </div>
+                <div id="sunset">
+                    <img id="sunsetIcon" src="/static/icons/sunset.png">
+                    <div id="sunsetVal"></div>
+                </div>
 
-            <div id="temperature">
-                <img id="temperatureIcon" src="/static/icons/temperature.png">
-                <div id="temperatureVal"></div>
-            </div>
+                <div id="temperature">
+                    <img id="temperatureIcon" src="/static/icons/temperature.png">
+                    <div id="temperatureVal"></div>
+                </div>
 
-            <div id="tempFeeling">
-                <img id="temperatureIcon2" src="/static/icons/temperature.png">
-                <div id="tempFeelingVal"></div>
-            </div>
+                <div id="tempFeeling">
+                    <img id="temperatureIcon2" src="/static/icons/temperature.png">
+                    <div id="tempFeelingVal"></div>
+                </div>
 
-            <div id="humidity">
-                <img id="humidityIcon" src="/static/icons/humidity.png">
-                <div id="humidityVal"></div>
-            </div>
+                <div id="humidity">
+                    <img id="humidityIcon" src="/static/icons/humidity.png">
+                    <div id="humidityVal"></div>
+                </div>
 
-            <div id="wind">
-                <img id="windIcon" src="/static/icons/wind.png">
-                <div id="windVal"></div>
-            </div>
+                <div id="wind">
+                    <img id="windIcon" src="/static/icons/wind.png">
+                    <div id="windVal"></div>
+                </div>
 
-            <div id="weather">
-                <img id="weatherIcon" src="/static/icons/Cloud.png">
+                <div id="weather">
+                    <img id="weatherIcon" src="/static/icons/Cloud.png">
+                </div>
             </div>
-        </div>
+            </td>
+        </tr>
 
-        <div id="dataDisplay">
+
+        <tr>
+            <td id="td_selection">
             <div id="selections">
                 <form id="stationSelect">
                     <div>
@@ -110,30 +117,51 @@
                     </div>
                 </div>
             </div>
+            </td>
+        </tr>
 
+
+        <tr>
+            <td id="td_map">
             <div id="map">
                 <script async defer
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa9dak2Kr9KQGGwO556T2g3m-j0ohYX64&callback=initMap">
                 </script>
             </div>
-        </div>
+            </td>
 
-        <div id="predictions">
-            <div id="weeklyStation"></div>
+            <td id="td_graphs">
+            <div id="graphs">
+                <div id="weeklyStation"></div>
+
+                <div id="dashboard_div">
+                    <div id="control_div">
+                        <div id="slider_div"></div>
+                        <div id="filter_div"></div>
+                    </div>
+                    <div id="chart_div"></div>
+                </div>
+            </div>
+            </td>
+        </tr>
+    </table>
 
 
-    <div id="dashboard_div">
-        <div id="control_div">
-            <div id="slider_div"></div>
-            <div id="filter_div"></div>
-        </div>
-        <div id="chart_div">
-
-        </div>
-    </div>
 
 
-    </div>
+
+
+
+
+<!--        <div id="dataDisplay">-->
+<!--        </div>-->
+
+
+
+
+
+
+
 </main>
 
 <footer>
