@@ -1,4 +1,4 @@
-# model_api.py - contains functions to clean & prep data and train & run model
+# model.py - contains functions to clean & prep data and train & run model
 
 from sqlalchemy import create_engine
 import pandas as pd
@@ -133,7 +133,7 @@ def predictBikeAvailability(df):
             multiple_linreg = LinearRegression().fit(X_train, Y_train)
 
             # pickle and save model
-            joblib.dump(multiple_linreg, "linear_regression_model_{}.pkl".format(station))
+            joblib.dump(multiple_linreg, "./models/linear_regression_model_{}.pkl".format(station))
 
             # Evaluate model on test data
             multiple_linreg_predictions = multiple_linreg.predict(X_test)
@@ -149,5 +149,14 @@ def predictBikeAvailability(df):
     results_d = {'Stop_Number': stations_list, 'RMSE': rmse_list, 'MAE': mae_list, 'R2': r2_list}
     results_df = pd.DataFrame(data=results_d)
     return results_df
+
+# get data
+df = getBikeAndWeatherData()
+
+# clean and prep data
+cleaned_df = cleanPrepData(df)
+
+# generate models
+predictBikeAvailability(cleaned_df)
 
 
