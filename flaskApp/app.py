@@ -4,7 +4,8 @@ from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
 import time
 from datetime import datetime
-from flaskApp.prediction_to_X_test import getWeatherForecast
+from flaskApp.weather_forecast import getWeatherForecast
+from flaskApp.prediction_api import makePrediction
 
 
 app = Flask(__name__)
@@ -190,18 +191,18 @@ def get_hourlyGraphData():
                '<br> <a href="/">Home</a>'
 
 
-# get the prediction data from the forms to be used for model predictions
+# get the prediction data from the forms to be used as input for predictive model
+# and return the predicted value in json format
 @app.route('/predict', methods=['POST'])
-def getPredictionData():
+def getPredictedData():
     pDate = request.args.get('date')
     pTime = request.args.get('time')
     station = request.args.get('station')
     timeString = str(pDate + " " + pTime)
     timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
-    print(getWeatherForecast(station, timestamp))
-    return jsonify(predictions=timestamp)
-
-
+    forecast = getWeatherForecast(station, timestamp)
+    prediction = makePrediction(forecast)
+    return jsonify(predictions=prediction)
 
 # Error  Webpages
 
