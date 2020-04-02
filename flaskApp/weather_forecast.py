@@ -43,6 +43,3 @@ def getWeatherForecast(station, timestamp):
     forecast = df.iloc[result_index]
 
     return forecast
-
-
-#print(getWeatherForecast(12, 1586044800))
