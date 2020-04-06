@@ -183,6 +183,9 @@ function initMap() {
 
                                 return function() {
 
+                                    // set the dropdown value to match the clicked marker
+                                    document.getElementById("stops-dd").value = staticData[i].Stop_Number;
+
                                     //station id or station data to update the graphs
                                     updateGraphs(staticData[i].Stop_Number);
 

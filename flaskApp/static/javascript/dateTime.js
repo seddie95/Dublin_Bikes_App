@@ -34,13 +34,15 @@
                 // Get form values
                 var date = document.getElementById("pdate").value;
                 var time = document.getElementById("ptime").value;
-                var station = document.getElementById("stops-dd").value;
 
-                console.log(station);
+                if (document.getElementById("stops-dd").value == "default") {
+                    alert("Please select a station from the dropdown, or click on a station on the map");
+                } else {
+                    var station = document.getElementById("stops-dd").value;
+                    console.log(station);
+                    var URL = "http://127.0.0.1:5000/predict?date="+ date + "&time=" + time +"&station=" + station;
 
-                var URL = "http://127.0.0.1:5000/predict?date="+ date + "&time=" + time +"&station=" + station;
-
-                  //get weekly data for bike stations using fetch
+                // Send input data to ml model and retrieve prediction
                fetch(URL,{
                     method: "POST",
                     credentials: "include",
@@ -67,5 +69,5 @@
                        prediction + " bikes available at this station on " + date + " at " + time;
                    }
                    });
-
+                }
         })
