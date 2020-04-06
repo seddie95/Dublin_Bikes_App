@@ -6,6 +6,7 @@ var availableStands = [];
 var availableBikes = [];
 var map;
 var staticData;
+var bikeLayer;
 
 
 // popup that displays realtime information
