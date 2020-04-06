@@ -35,7 +35,8 @@ function fetchWeather() {
             var humidityVal = obj.main.humidity;
             var humidity = parseInt(humidityVal).toString() + "%";
 
-            var windVal = obj.wind.speed;
+            var windVal = obj.wind.speed ;
+            windVal = Math.round(windVal * 3.6);
             var wind = parseInt(windVal).toString() + "Km/h";
 
             var date = new Date(obj.sys.sunrise * 1000);
