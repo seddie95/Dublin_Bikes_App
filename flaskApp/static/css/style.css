@@ -166,6 +166,32 @@ main{
         margin: 5px 0px
 }
 
+/* Styling for ML prediction section */
+
+.prediction {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #4169B9;
+    color: white;
+}
+
+#predictHeader {
+    font-size: 18px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+form {
+    padding-bottom: 15px;
+}
+
+#predictionOutput {
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
 footer #info {
     background-color: rgb(30, 30, 30);
     font-family: 'Open Sans', sans-serif;
