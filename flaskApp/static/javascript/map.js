@@ -285,6 +285,22 @@ function showBikes(map,array) {
     }
 }
 
+// function to show or hide the bike layer
+function hideBikeLayer(){
+// if the bike layer is showing hide it
+if (bikeLayer){
+    bikeLayer.setMap(null);
+    bikeLayer = null;
+    }
+
+// if bike layer hidden show it
+else{
+    bikeLayer = new google.maps.BicyclingLayer();
+    bikeLayer.setMap(map);
+    }
+
+}
+
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
 function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
@@ -304,6 +320,10 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
                 var duration = response.routes[0].legs[0].duration.text;
                 var distance = response.routes[0].legs[0].distance.text;
 
+                // calculate the C02 emission prevented
+                var c02 = 118*parseFloat(distance).toFixed(4).toString();
+
+
                 // display the polyline response on the map
                 directionsRenderer.setDirections(response);
                 // close the main infowindows
@@ -315,7 +335,11 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
                 }
                 // create new infowindows to display the distance and duration
                 infowindow2 = new google.maps.InfoWindow();
-                infowindow2.setContent( "<b>"+duration+"</b>"+ "<br>" +  distance+ " ");
+                infowindow2.setContent(
+                     "Duration: " + duration + "<br>" +
+                     "Distance: " + distance + "<br>" +
+                     "C0<sub>2</sub> Prevented: " + c02 + "g"
+                );
                 infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
                 infowindow2.open(map);
           } else {
@@ -323,4 +347,3 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
           }
         });
 }
-
