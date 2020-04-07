@@ -65,6 +65,14 @@ function initMap() {
                     // render the bicycle route
                     directionsRenderer.setMap(map);
 
+                     // Create the DIV to hold the control and call the bikeControl()
+                    // constructor passing in this DIV.
+                    var bikeControlDiv = document.createElement('div');
+                    var centerControl = new bikeControl(bikeControlDiv, map);
+
+                    bikeControlDiv.index = 1;
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(bikeControlDiv);
+
                     // create an infowindow to store the dynamic data
                     infowindow = new google.maps.InfoWindow();
 
@@ -307,21 +315,6 @@ function showBikes(map,array) {
     }
 }
 
-// function to show or hide the bike layer
-function hideBikeLayer(){
-// if the bike layer is showing hide it
-if (bikeLayer){
-    bikeLayer.setMap(null);
-    bikeLayer = null;
-    }
-
-// if bike layer hidden show it
-else{
-    bikeLayer = new google.maps.BicyclingLayer();
-    bikeLayer.setMap(map);
-    }
-
-}
 
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
@@ -368,4 +361,35 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
             window.alert('Directions request failed due to ' + status);
           }
         });
+}
+//----------------------------------------------------------------------
+function bikeControl(controlDiv, map) {
+
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.setAttribute("id", "bike-button");
+    controlUI.title = 'Click to show or hide the bicyle layer';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    controlText.setAttribute("id", "bike-text");
+    controlText.innerHTML = 'Hide Bike Layer';
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener('click', function() {
+    // if the bike layer is showing hide it
+    if (bikeLayer){
+        bikeLayer.setMap(null);
+        bikeLayer = null;
+        }
+
+    // if bike layer hidden show it
+    else{
+        bikeLayer = new google.maps.BicyclingLayer();
+        bikeLayer.setMap(map);
+        }
+  });
+
 }
