@@ -251,3 +251,31 @@ footer table td span:hover {
 #dashboard_div {
     margin-top: 15px;
 }
+
+#infowindow a {
+    color: black;
+    font-weight: bold;
+}
+
+#infowindow {
+    width: 250px;
+}
+.Infotitle {
+    margin: 0px;
+    font-weight: bold;
+    width: 35%;
+    float: left;
+}
+
+.Infovalue {
+    margin: 0px;
+    width: 65%;
+    float: left;
+    text-align: left;
+    padding: 0px 15px;
+    font-weight: bolder;
+}
+
+#route{
+    margin-top: 10px;
+}
