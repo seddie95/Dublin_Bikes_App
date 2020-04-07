@@ -183,6 +183,8 @@ function initMap() {
                                 // get route
 
                                 return function() {
+                                    //change css of tag elements
+                                    document.getElementById("main").style.margin = "0px 40px"
 
                                     // set the dropdown value to match the clicked marker
                                     document.getElementById("stops-dd").value = staticData[i].Stop_Number;
@@ -219,15 +221,34 @@ function initMap() {
                                     var last_update =parseInt(staticData[i].Last_Update)*1000;
                                     // Set the content of the info window to display the dynamic bike data
                                     infowindow.setContent(
-                                                "Updated: " + new Date(last_update).toLocaleDateString()+ " " +
-                                                new Date(last_update).toLocaleTimeString() + "<br>" +
-                                                "Station: " + staticData[i].Stop_Name + "<br>" +
-                                               "Station ID: " + staticData[i].Stop_Number.toString() +"<br>" +
-                                               "Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
-                                               "Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
-                                               "Banking: " + staticData[i].Banking +"<br>"+
-                                              "<a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,selectedMarker)' href='javascript:void(0);'>get route</a>"
-                                               );
+                                        "<div id='infowindow'>" +
+                                            "<p id='update' class='Infotitle'>Updated:</p> <p class='Infovalue'>" +
+                                                new Date(last_update).toLocaleDateString()+ " " +
+                                                new Date(last_update).toLocaleTimeString() + "</p> <br>" +
+                                            "<p id='station' class='Infotitle'>Station:</p> <p class='Infovalue'>" +
+                                                staticData[i].Stop_Name + "</p> <br>" +
+                                            "<p id='stationID' class='Infotitle'>Station ID:</p> <p class='Infovalue'>" +
+                                                staticData[i].Stop_Number.toString() +"</p> <br>" +
+                                            "<p id='bikes' class='Infotitle'>Bikes:</p> <p class='Infovalue'>" +
+                                                staticData[i].Available_Bikes.toString() +"</p> <br>" +
+                                            "<p id='spaces' class='Infotitle'>Spaces:</p> <p class='Infovalue'>" +
+                                                staticData[i].Available_Spaces.toString() +"</p> <br>" +
+                                            "<p id='banking' class='Infotitle'>Banking:</p> <p class='Infovalue'>" +
+                                                staticData[i].Banking +"</p> <br>" +
+                                            "<div id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
+                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></div>" +
+                                        "</div>");
+
+
+                                              //   "Updated: " + new Date(last_update).toLocaleDateString()+ " " +
+                                              //   new Date(last_update).toLocaleTimeString() + "<br>" +
+                                              //   "Station: " + staticData[i].Stop_Name + "<br>" +
+                                              //  "Station ID: " + staticData[i].Stop_Number.toString() +"<br>" +
+                                              //  "Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
+                                              //  "Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
+                                              //  "Banking: " + staticData[i].Banking +"<br>"+
+                                              // "<a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,selectedMarker)' href='javascript:void(0);'>get route</a>"
+                                              //  );
                                     infowindow.open(map, marker);
                                 }
                               })(marker, i));

@@ -59,7 +59,6 @@ main{
         display: table;
         margin-left: auto;
         margin-right: auto;
-        margin: 0px 20px;
         padding: 10px 0px;
         color: #2f2f2f
 }
@@ -161,15 +160,14 @@ main{
 
 
 #map {
-        height: 450px;
-        width: 1080px;
-        margin: 5px 0px
+    height: 450px;
+    width: 1080px;
+    margin: 5px 0px
 }
 
 /* Styling for ML prediction section */
 
 .prediction {
-    width: 80%;
     margin: 20px auto;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
@@ -252,4 +250,32 @@ footer table td span:hover {
 
 #dashboard_div {
     margin-top: 15px;
+}
+
+#infowindow a {
+    color: black;
+    font-weight: bold;
+}
+
+#infowindow {
+    width: 250px;
+}
+.Infotitle {
+    margin: 0px;
+    font-weight: bold;
+    width: 35%;
+    float: left;
+}
+
+.Infovalue {
+    margin: 0px;
+    width: 65%;
+    float: left;
+    text-align: left;
+    padding: 0px 15px;
+    font-weight: bolder;
+}
+
+#route{
+    margin-top: 10px;
 }
