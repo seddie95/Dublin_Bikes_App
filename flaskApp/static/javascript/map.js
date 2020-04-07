@@ -230,21 +230,21 @@ function initMap() {
                                     // Set the content of the info window to display the dynamic bike data
                                     infowindow.setContent(
                                         "<div id='infowindow'>" +
-                                            "<p id='update' class='Infotitle'>Updated:</p> <p class='Infovalue'>" +
+                                            "<span id='update' class='Infotitle'>Updated:</span> <span class='Infovalue'>" +
                                                 new Date(last_update).toLocaleDateString()+ " " +
-                                                new Date(last_update).toLocaleTimeString() + "</p> <br>" +
-                                            "<p id='station' class='Infotitle'>Station:</p> <p class='Infovalue'>" +
-                                                staticData[i].Stop_Name + "</p> <br>" +
-                                            "<p id='stationID' class='Infotitle'>Station ID:</p> <p class='Infovalue'>" +
-                                                staticData[i].Stop_Number.toString() +"</p> <br>" +
-                                            "<p id='bikes' class='Infotitle'>Bikes:</p> <p class='Infovalue'>" +
-                                                staticData[i].Available_Bikes.toString() +"</p> <br>" +
-                                            "<p id='spaces' class='Infotitle'>Spaces:</p> <p class='Infovalue'>" +
-                                                staticData[i].Available_Spaces.toString() +"</p> <br>" +
-                                            "<p id='banking' class='Infotitle'>Banking:</p> <p class='Infovalue'>" +
-                                                staticData[i].Banking +"</p> <br>" +
-                                            "<div id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
-                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></div>" +
+                                                new Date(last_update).toLocaleTimeString() + "</span> <br>" +
+                                            "<span id='station' class='Infotitle'>Station:</span> <span class='Infovalue'>" +
+                                                staticData[i].Stop_Name + "</span> <br>" +
+                                            "<span id='stationID' class='Infotitle'>Station ID:</span> <span class='Infovalue'>" +
+                                                staticData[i].Stop_Number.toString() +"</span> <br>" +
+                                            "<span id='bikes' class='Infotitle'>Bikes:</span> <span class='Infovalue'>" +
+                                                staticData[i].Available_Bikes.toString() +"</span> <br>" +
+                                            "<span id='spaces' class='Infotitle'>Spaces:</span> <span class='Infovalue'>" +
+                                                staticData[i].Available_Spaces.toString() +"</span> <br>" +
+                                            "<span id='banking' class='Infotitle'>Banking:</span> <span class='Infovalue'>" +
+                                                staticData[i].Banking +"</span> <br>" +
+                                            "<span id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
+                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></span>" +
                                         "</div>");
 
 
