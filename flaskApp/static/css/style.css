@@ -59,7 +59,6 @@ main{
         display: table;
         margin-left: auto;
         margin-right: auto;
-        margin: 0px 20px;
         padding: 10px 0px;
         color: #2f2f2f
 }
@@ -161,15 +160,14 @@ main{
 
 
 #map {
-        height: 450px;
-        width: 1080px;
-        margin: 5px 0px
+    height: 450px;
+    width: 1080px;
+    margin: 5px 0px
 }
 
 /* Styling for ML prediction section */
 
 .prediction {
-    width: 80%;
     margin: 20px auto;
     text-align: center;
     font-family: 'Open Sans', sans-serif;

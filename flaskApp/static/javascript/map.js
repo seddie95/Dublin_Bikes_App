@@ -183,6 +183,8 @@ function initMap() {
                                 // get route
 
                                 return function() {
+                                    //change css of tag elements
+                                    document.getElementById("main").style.margin = "0px 40px"
 
                                     // set the dropdown value to match the clicked marker
                                     document.getElementById("stops-dd").value = staticData[i].Stop_Number;
