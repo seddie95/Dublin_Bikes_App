@@ -279,3 +279,31 @@ footer table td span:hover {
 #route{
     margin-top: 10px;
 }
+
+
+#bike-button {
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgb(0,0,0,.3);
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 22px;
+    margin-left: -12px;
+    text-align: center;
+
+}
+
+#bike-button:hover {
+    background-color: #EBEBEB;
+    border: 2px solid #EBEBEB;
+}
+
+#bike-text {
+    color: rgb(25,25,25);
+    font-family: Roboto,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 36px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
