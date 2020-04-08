@@ -6,7 +6,7 @@ import time
 from datetime import datetime
 from flaskApp.weather_forecast import getWeatherForecast
 from flaskApp.prediction_api import makePrediction
-
+import GetData.config as c
 
 app = Flask(__name__)
 
@@ -19,8 +19,7 @@ if not app.debug:
 
 # function that connects to the RDS database using the credentials
 def connect_to_database():
-    engine = create_engine("mysql+mysqldb://comp30830:password@comp30830.cyn6ycrg3wxh.us-east-1.rds.amazonaws.com"
-                           "/comp30830")
+    engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(c.user, c.password, c.host, c.db_name))
     return engine
 
 
