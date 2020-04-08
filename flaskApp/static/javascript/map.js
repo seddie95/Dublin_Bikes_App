@@ -44,7 +44,7 @@ function initMap() {
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
-            cache: "no-cache",
+            //cache: "no-cache",
             headers: new Headers({
                 "content-type": "application/json"
             })
@@ -62,14 +62,9 @@ function initMap() {
                        zoom: 14,
                     });
 
-                    // render the bicycle route
-                    directionsRenderer.setMap(map);
-
-                     // Create the DIV to hold the control and call the bikeControl()
-                    // constructor passing in this DIV.
+                    // Create the DIV to hold the control and call the bikeControl()
                     var bikeControlDiv = document.createElement('div');
                     var centerControl = new bikeControl(bikeControlDiv, map);
-
                     bikeControlDiv.index = 1;
                     map.controls[google.maps.ControlPosition.TOP_LEFT].push(bikeControlDiv);
 
@@ -92,15 +87,15 @@ function initMap() {
                     });
 
                     markers[0] = marker;
-
+                    // test if user allows for their location to be known
                     if(navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
                             userLocation = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude
                             };
-
-                            map.setCenter(userLocation);
+                        // set the users location as the center of the map
+                        map.setCenter(userLocation);
 
                             const latlng = new google.maps.LatLng(userLocation.lat, userLocation.lng);
                             markers[0].setPosition(latlng);
@@ -148,12 +143,12 @@ function initMap() {
                         // set the bike icon to blue if  status is open or grey if closed
                         var icon;
                         if (staticData[i].Station_Status === 'OPEN') {
-                           icon = "/static//icons/bikeIcon.png";
+                           icon = "/static/icons/bikeIcon.png";
                         } else {
-                           icon = "/static//icons/closedIcon.png";
+                           icon = "/static/icons/closedIcon.png";
                         }
 
-                        // set the  of the markers using the longitude and latitude of the station
+                        // set the position of the markers using the longitude and latitude of the station
                         marker = new google.maps.Marker({
                            position: {
                                lat: parseFloat(staticData[i].Pos_Lat),
@@ -188,9 +183,12 @@ function initMap() {
 
                         // add listener to zoom to the location of the marker and display content
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                                // get route
-
                                 return function() {
+                                // hide the duration infowindow and bike route if it exists
+                                if(infowindow2){
+                                    infowindow2.close();
+                                    directionsRenderer.setMap(null);
+                                }
                                     //change css of tag elements
                                     document.getElementById("main").style.margin = "0px 40px"
 
@@ -220,7 +218,7 @@ function initMap() {
                                     }
 
                                     marker.setIcon({
-                                        url: "/static//icons/selectBike.png",
+                                        url: "/static/icons/selectBike.png",
                                         scaledSize: new google.maps.Size(60, 60)});
 
                                     selectedMarker = marker;
@@ -341,12 +339,15 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
 
                 // display the polyline response on the map
                 directionsRenderer.setDirections(response);
+                directionsRenderer.setMap(map)
+
                 // close the main infowindows
                 infowindow.close();
 
-                //close the travel infowindow if it exists
+                //close the travel infowindow if it exists and show the route
                 if(infowindow2){
                     infowindow2.close();
+                    directionsRenderer.setMap(map);
                 }
                 // create new infowindows to display the distance and duration
                 infowindow2 = new google.maps.InfoWindow();
@@ -393,3 +394,4 @@ function bikeControl(controlDiv, map) {
   });
 
 }
+
