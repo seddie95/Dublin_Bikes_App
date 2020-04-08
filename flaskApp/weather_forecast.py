@@ -1,8 +1,14 @@
 import requests
 import pandas as pd
+import time
+from datetime import datetime
 
 
-def getWeatherForecast(station, timestamp):
+def getWeatherForecast(station, prediction_date, prediction_time):
+    # create the time stamp using the date and time info
+    timeString = str(prediction_date + " " + prediction_time)
+    timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
+
     # weather api url
     url = 'http://api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric'
 
