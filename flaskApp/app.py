@@ -1,9 +1,7 @@
-from flask import Flask, g, jsonify, render_template,request
+from flask import Flask, g, jsonify, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
-import time
-from datetime import datetime
 from flaskApp.weather_forecast import getWeatherForecast
 from flaskApp.prediction_api import makePrediction
 import GetData.config as c
@@ -31,7 +29,10 @@ def get_db():
     return db
 
 
-def getStatic(json=False):
+# Route for the home page that renders the base.html template
+# gets the static data from the rds to populate the drop downs
+@app.route('/')
+def base():
     """Function to retrieve the static data from the database and return it as either json or pass it to the
     html using jinja for the purpose of displaying the map data."""
     # call the function get_db to connect to the database
@@ -48,10 +49,7 @@ def getStatic(json=False):
         # if the datalist list is not empty it will render the template base.html and pass it the function datalist
         # the datalist function will be used with jinja to populate the dropdown lists
         if datalist:
-            if json:
-                return jsonify(available=datalist)
-            if not json:
-                return render_template('index.html', datalist=datalist)
+            return render_template('index.html', datalist=datalist)
         else:
             noStatic = "Error: No static data was found "
             return render_template('index.html', noStatic=noStatic)
@@ -60,13 +58,6 @@ def getStatic(json=False):
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
                '<br> <a href="/">Home</a>'
-
-
-# Route for the home page that renders the base.html template
-# gets the static data from the rds to populate the drop downs
-@app.route('/')
-def base():
-    return getStatic()
 
 
 # route for providing the dynamic information for a given station id
@@ -102,7 +93,6 @@ def get_stations():
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
                '<br> <a href="/">Home</a>'
-
 
 
 # route for providing the graph data
@@ -142,8 +132,6 @@ def get_weeklyGraphData():
                '<br> <a href="/">Home</a>'
 
 
-
-
 # route for providing the graph data
 @app.route("/HourlyGraph", methods=['POST'])
 def get_hourlyGraphData():
@@ -172,7 +160,7 @@ def get_hourlyGraphData():
                             WEEKDAY(from_unixtime(Last_Update)) asc,
                             Hours asc;"""
 
-        rows = engine.execute(SQLquery, [hourData,timeData,timeData,weekData,hourData])
+        rows = engine.execute(SQLquery, [hourData, timeData, timeData, weekData, hourData])
 
         for row in rows:
             data.append(dict(row))
@@ -197,11 +185,10 @@ def getPredictedData():
     pDate = request.args.get('date')
     pTime = request.args.get('time')
     station = request.args.get('station')
-    timeString = str(pDate + " " + pTime)
-    timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
-    forecast = getWeatherForecast(station, timestamp)
+    forecast = getWeatherForecast(station, pDate, pTime)
     prediction = makePrediction(forecast)
     return jsonify(predictions=prediction)
+
 
 # Error  Webpages
 
