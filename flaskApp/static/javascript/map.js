@@ -233,7 +233,7 @@ function initMap() {
                                                 new Date(last_update).toLocaleDateString()+ " " +
                                                 new Date(last_update).toLocaleTimeString() + "</span> <br>" +
                                             "<span id='station' class='Infotitle'>Station:</span> <span class='Infovalue'>" +
-                                                staticData[i].Stop_Name + "</span> <br>" +
+                                                staticData[i].Stop_Address + "</span> <br>" +
                                             "<span id='stationID' class='Infotitle'>Station ID:</span> <span class='Infovalue'>" +
                                                 staticData[i].Stop_Number.toString() +"</span> <br>" +
                                             "<span id='bikes' class='Infotitle'>Bikes:</span> <span class='Infovalue'>" +
@@ -243,7 +243,7 @@ function initMap() {
                                             "<span id='banking' class='Infotitle'>Banking:</span> <span class='Infovalue'>" +
                                                 staticData[i].Banking +"</span> <br>" +
                                             "<span id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
-                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></span>" +
+                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>Get walking route</a></span>" +
                                         "</div>");
 
                                     infowindow.open(map, marker);
