@@ -44,7 +44,7 @@ function initMap() {
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
-            //cache: "no-cache",
+            cache: "no-cache",
             headers: new Headers({
                 "content-type": "application/json"
             })
@@ -60,6 +60,7 @@ function initMap() {
                     // set the map to be equal to the div with id "map"
                     map = new google.maps.Map(document.getElementById("map"), {
                        zoom: 14,
+                       mapTypeControl: false
                     });
 
                     // Create the DIV to hold the control and call the bikeControl()
@@ -245,16 +246,6 @@ function initMap() {
                                             ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></span>" +
                                         "</div>");
 
-
-                                              //   "Updated: " + new Date(last_update).toLocaleDateString()+ " " +
-                                              //   new Date(last_update).toLocaleTimeString() + "<br>" +
-                                              //   "Station: " + staticData[i].Stop_Name + "<br>" +
-                                              //  "Station ID: " + staticData[i].Stop_Number.toString() +"<br>" +
-                                              //  "Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
-                                              //  "Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
-                                              //  "Banking: " + staticData[i].Banking +"<br>"+
-                                              // "<a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,selectedMarker)' href='javascript:void(0);'>get route</a>"
-                                              //  );
                                     infowindow.open(map, marker);
                                 }
                               })(marker, i));
@@ -313,7 +304,6 @@ function showBikes(map,array) {
     }
 }
 
-
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
 function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
@@ -364,33 +354,36 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
         });
 }
 //----------------------------------------------------------------------
+//function to show and hide the bike layer
 function bikeControl(controlDiv, map) {
 
-    // Set CSS for the control border.
+    // Set CSS for the button
     var controlUI = document.createElement('div');
     controlUI.setAttribute("id", "bike-button");
     controlUI.title = 'Click to show or hide the bicyle layer';
     controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control interior.
+    // Set CSS for the button's text.
     var controlText = document.createElement('div');
     controlText.setAttribute("id", "bike-text");
-    controlText.innerHTML = 'Hide Bike Layer';
+    controlText.innerHTML = 'Show Bike Layer';
     controlUI.appendChild(controlText);
 
     // Setup the click event listeners: simply set the map to Chicago.
     controlUI.addEventListener('click', function() {
-    // if the bike layer is showing hide it
-    if (bikeLayer){
-        bikeLayer.setMap(null);
-        bikeLayer = null;
-        }
+        // if the bike layer is showing hide it
+        if (bikeLayer){
+            controlText.innerHTML = 'Show Bike Layer';
+            bikeLayer.setMap(null);
+            bikeLayer = null;
+            }
 
-    // if bike layer hidden show it
-    else{
-        bikeLayer = new google.maps.BicyclingLayer();
-        bikeLayer.setMap(map);
-        }
+        // if bike layer hidden show it
+        else{
+            controlText.innerHTML = 'Hide Bike Layer';
+            bikeLayer = new google.maps.BicyclingLayer();
+            bikeLayer.setMap(map);
+            }
   });
 
 }
