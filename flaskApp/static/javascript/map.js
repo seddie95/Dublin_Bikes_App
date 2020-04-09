@@ -255,7 +255,7 @@ function initMap() {
            })
            // catch used to test if something went wrong when parsing or in the network
            .catch(function (error) {
-               console.error("Somethings wrong:", error);
+               console.error("Difficulty fetching real-time bike data:", error);
                console.error(error);
            });
         // call the function every minute to update the information
