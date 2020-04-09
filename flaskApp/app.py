@@ -67,7 +67,7 @@ def get_stations():
 
         SQLquery = """SELECT dd.Stop_Number, dd.Bike_Stands, dd.Available_Spaces,
                             dd.Available_Bikes, dd.Station_Status, dd.Last_Update,
-                            sd.Stop_Name, sd.Banking, sd.Pos_Lat, sd.Pos_Lng
+                            sd.Stop_Address, sd.Banking, sd.Pos_Lat, sd.Pos_Lng
                             FROM comp30830.BikeDynamic as dd,comp30830.BikeStatic as sd
                             WHERE dd.Stop_Number = sd.Stop_Number AND (dd.Stop_Number,dd.Last_Update) IN
                                     (SELECT Stop_Number as SN, MAX(Last_Update) as LU
