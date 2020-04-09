@@ -2,7 +2,6 @@ from flask import Flask, g, jsonify, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
-from flaskApp.weather_forecast import getWeatherForecast
 from flaskApp.prediction_api import makePrediction
 import GetData.config as c
 
@@ -38,7 +37,6 @@ def base():
     # call the function get_db to connect to the database
     try:
         engine = get_db()
-
         datalist = []
         # sql query that returns all of the static information form the RDS database
         rows = engine.execute("SELECT * FROM BikeStatic;")
@@ -101,7 +99,6 @@ def get_weeklyGraphData():
     try:
         engine = get_db()
         data = []
-
         timeData = "%H:%i"
 
         SQLquery = """SELECT Stop_Number,
@@ -182,15 +179,12 @@ def get_hourlyGraphData():
 # and return the predicted value in json format
 @app.route('/predict', methods=['POST'])
 def getPredictedData():
+    station = request.args.get('station')
     pDate = request.args.get('date')
     pTime = request.args.get('time')
-    station = request.args.get('station')
-    forecast = getWeatherForecast(station, pDate, pTime)
-    prediction = makePrediction(forecast)
+    prediction = makePrediction(station, pDate, pTime)
     return jsonify(predictions=prediction)
 
-
-# Error  Webpages
 
 # error handling for page not found
 @app.errorhandler(404)
