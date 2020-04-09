@@ -279,6 +279,13 @@ footer table td span:hover {
     margin-top: 10px;
 }
 
+#route a {
+    color:blue;
+}
+
+#route a:hover {
+     color:DeepSkyBlue;
+}
 
 #bike-button {
     background-color: #fff;
