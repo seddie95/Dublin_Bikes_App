@@ -1,6 +1,7 @@
 # model.py - contains functions to clean & prep data and train & run model
 
 from sqlalchemy import create_engine
+import GetData.config as c
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import TimeSeriesSplit
@@ -14,8 +15,7 @@ def getBikeAndWeatherData():
     """Function that retrieves and joins both Weather and Dynamic Bike data from our database and returns a
     merged df joined by nearest datestamp"""
 
-    engine = create_engine("mysql+mysqldb://comp30830:password@comp30830.cyn6ycrg3wxh.us-east-1.rds.amazonaws.com"
-                           "/comp30830")
+    engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(c.user, c.password, c.host, c.db_name))
     wdf = pd.read_sql_query('''SELECT * FROM weatherDynamic ORDER BY Timestamp;''', engine)
     bdf = pd.read_sql_query('''SELECT * FROM BikeDynamic ORDER BY Last_Update;''', engine)
 
