@@ -58,25 +58,28 @@ def inputPreProcessing(input):
     station = input['Stop_Number']
 
     input_d = {'Temperature': input['Temperature'], 'Real_Feel': input['Real_Feel'], 'Wind_Speed': input[
-        'Wind_Speed'], 'Day_Friday': 0, 'Day_Monday': 0, 'Day_Saturday': 0, 'Day_Sunday': 0,
-               'Day_Thursday': 0, 'Day_Tuesday': 0, 'Day_Wednesday': 0, 'Time_00': 0, 'Time_05': 0, 'Time_06': 0,
+        'Wind_Speed'], 'Day_Monday': 0, 'Day_Saturday': 0, 'Day_Sunday': 0, 'Day_Thursday': 0, 'Day_Tuesday': 0,
+               'Day_Wednesday': 0, 'Time_05': 0, 'Time_06': 0,
                'Time_07': 0, 'Time_08': 0, 'Time_09': 0, 'Time_10': 0, 'Time_11': 0, 'Time_12': 0, 'Time_13': 0,
                'Time_14': 0, 'Time_15': 0, 'Time_16': 0, 'Time_17': 0, 'Time_18': 0, 'Time_19': 0, 'Time_20': 0,
-               'Time_21': 0, 'Time_22': 0, 'Time_23': 0, 'Weather_Main_Clear': 0, 'Weather_Main_Clouds': 0,
-               'Weather_Main_Drizzle': 0, 'Weather_Main_Fog': 0, 'Weather_Main_Mist': 0, 'Weather_Main_Rain': 0}
+               'Time_21': 0, 'Time_22': 0, 'Time_23': 0, 'Weather_Main_Clouds': 0, 'Weather_Main_Drizzle': 0,
+               'Weather_Main_Fog': 0, 'Weather_Main_Mist': 0, 'Weather_Main_Rain': 0}
 
     # Set the relevant one-hot encoded features to 1
     date = pd.to_datetime(input['Time'], unit='s')  # convert timestamp to date
     day = date.strftime("%A")  # extract day of the week
-    day = 'Day_' + day
-    input_d[day] = 1
+    if day != 'Friday': # exception for first one hot encoded value
+        day = 'Day_' + day
+        input_d[day] = 1
 
     time = date.strftime("%H")  # extract hour
-    time = 'Time_' + time
-    input_d[time] = 1
+    if time != '00':
+        time = 'Time_' + time
+        input_d[time] = 1
 
-    weather = 'Weather_Main_' + input['Weather_Main']
-    input_d[weather] = 1
+    if input['Weather_Main'] != 'Clear':
+        weather = 'Weather_Main_' + input['Weather_Main']
+        input_d[weather] = 1
 
     input_df = pd.DataFrame(data=input_d, index=[0])
 
