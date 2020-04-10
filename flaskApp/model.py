@@ -38,6 +38,9 @@ def getBikeAndWeatherData():
 def cleanPrepData(df):
     """Function that cleans and preps the data for modelling and returns a dataframe ready for training"""
 
+    # Drop rows representing times when a station was closed
+    df = df[df.Station_Status != 'CLOSED']
+
     # Drop features that will never be used in the model
     df.drop(columns=['Bike_Stands', 'Min', 'Max', 'wID', 'Timestamp', 'Station_Status'], inplace=True)
 
@@ -96,6 +99,7 @@ def cleanPrepData(df):
 
     return df
 
+
 def predictBikeAvailability(df):
     """ Function that trains models for each bike station number using a series of datasets obtained from splitting
     the training and testing data repeatedly using time series cross-validation. Saves a pickled file of the
@@ -111,14 +115,14 @@ def predictBikeAvailability(df):
     stations_list = []
 
     for station in stop_numbers:
-        dfm = df[df.Stop_Number == station].reset_index()
-        dfm['Stop_Number'] = pd.to_numeric(dfm['Stop_Number'])
-        # Drop weather description and weekend flag. Can be added back later if they are found to be meaningful once
-        # more data is available
-        dfm = dfm.drop(['Description', 'Weekend'], 1)
-        dfm = pd.get_dummies(dfm)  # one-hot encoding of categorical features
+
+        dfm = df[df.Stop_Number == station].reset_index(drop=True)
+        # Drop weather description and weekend flag. Can be added back later if they are found to be meaningful
+        # once more data is available
+        dfm = dfm.drop(['Stop_Number', 'Description', 'Weekend'], 1)
+        dfm = pd.get_dummies(dfm, drop_first=True)  # one-hot encoding of categorical features
         # excluding targets and timestamp from input features
-        X = dfm.drop(['Available_Spaces', 'Available_Bikes', 'Last_Update', 'Stop_Number', 'index'], 1)
+        X = dfm.drop(columns=['Available_Spaces', 'Available_Bikes', 'Last_Update'])
         Y = dfm[['Available_Bikes']]  # target outcome to predict
 
         # Generate time series cross validation splits (using default of 5 splits)
@@ -160,5 +164,3 @@ cleaned_df = cleanPrepData(df)
 
 # generate models
 predictBikeAvailability(cleaned_df)
-
-
