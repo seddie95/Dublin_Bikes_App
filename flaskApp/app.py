@@ -16,6 +16,7 @@ if not app.debug:
 
 # function that connects to the RDS database using the credentials
 def connect_to_database():
+    # Create engine and take credentials
     engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(c.user, c.password, c.host, c.db_name))
     return engine
 
@@ -34,7 +35,7 @@ def get_db():
 def base():
     """Function to retrieve the static data from the database and return it as either json or pass it to the
     html using jinja for the purpose of displaying the map data."""
-    # call the function get_db to connect to the database
+    # call the function get_db to connect to the database and store the response in a list
     try:
         engine = get_db()
         datalist = []
@@ -52,6 +53,7 @@ def base():
             noStatic = "Error: No static data was found "
             return render_template('index.html', noStatic=noStatic)
 
+    # return a message to the user stating that an issue exists connecting to the database
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
@@ -62,9 +64,11 @@ def base():
 @app.route("/dynamic", methods=['POST'])
 def get_stations():
     try:
+        # Create the engine and store the output in the data list
         engine = get_db()
         data = []
 
+        # The SQL retrieves the latest dynamic data and joins it with the static data to get station info
         SQLquery = """SELECT dd.Stop_Number, dd.Bike_Stands, dd.Available_Spaces,
                             dd.Available_Bikes, dd.Station_Status, dd.Last_Update,
                             sd.Stop_Address, sd.Banking, sd.Pos_Lat, sd.Pos_Lng
@@ -76,7 +80,7 @@ def get_stations():
                                     ORDER BY Last_Update desc);"""
 
         rows = engine.execute(SQLquery)
-
+        # append the contents to a dictionary so it can be jsonified
         for row in rows:
             data.append(dict(row))
 
@@ -86,7 +90,7 @@ def get_stations():
         else:
             return '<h1>Station ID not found in Database</h2>'
 
-    # OperationError states that the database does not exist
+    # OperationError states that the database does not exist this will be shown to the user
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
@@ -97,10 +101,12 @@ def get_stations():
 @app.route("/WeeklyGraph", methods=['POST'])
 def get_weeklyGraphData():
     try:
+        # Create  the engine and store the data in the data list
         engine = get_db()
         data = []
         timeData = "%H:%i"
 
+        # SQL will select all the
         SQLquery = """SELECT Stop_Number,
                             CONVERT(avg(Available_Spaces),char) as Available_Spaces,
                             CONVERT(avg(Available_Bikes),char) as Available_Bikes,
@@ -122,7 +128,7 @@ def get_weeklyGraphData():
         else:
             return '<h1>Station ID not found in Database</h2>'
 
-    # OperationError states that the database does not exist
+    # OperationError states that the database does not exist The below message will be shown to user
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
@@ -133,6 +139,7 @@ def get_weeklyGraphData():
 @app.route("/HourlyGraph", methods=['POST'])
 def get_hourlyGraphData():
     try:
+        # Create  the engine and store the data in the data list
         engine = get_db()
         data = []
 
@@ -168,7 +175,7 @@ def get_hourlyGraphData():
         else:
             return '<h1>Station ID not found in Database</h2>'
 
-    # OperationError states that the database does not exist
+    # OperationError states that the database does not exist the below message will be returned to the user
     except OperationalError:
         return '<h1> Problem connecting to the Database:</h1>' \
                '<br><h2>Please sit tight and we will resolve this issue</h2>' \
@@ -179,6 +186,7 @@ def get_hourlyGraphData():
 # and return the predicted value in json format
 @app.route('/predict', methods=['POST'])
 def getPredictedData():
+    # The station date and time will be taken from the link and then put into the model for prediction
     station = request.args.get('station')
     pDate = request.args.get('date')
     pTime = request.args.get('time')
@@ -189,12 +197,14 @@ def getPredictedData():
 # error handling for page not found
 @app.errorhandler(404)
 def page_not_found(e):
+    # The below web-page will be shown if the web-page does not exist
     return render_template('404.html')
 
 
 # Server error
 @app.errorhandler(500)
 def server_error(e):
+    # This web-page will be rendered if their is an issue connecting to the server.
     return render_template('500.html')
 
 
