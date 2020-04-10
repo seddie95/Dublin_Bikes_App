@@ -1,24 +1,17 @@
-
 import requests
 import json
 import sys
 import mysql.connector
 from mysql.connector import Error
+import GetData.config as c
 
 def main():
     print("Started")
-
-    # RDS Connection credentials
-    host = "comp30830.cyn6ycrg3wxh.us-east-1.rds.amazonaws.com"
-    user = "comp30830"
-    password = "password"
-    db_name = "comp30830"
-
     try:
         # Connect to database and create schema if not existing
-        connection = mysql.connector.connect(host=host, user=user, password=password)
+        connection = mysql.connector.connect(host=c.host, user=c.user, password=c.password)
         cursor = connection.cursor()
-        createSchema = "CREATE DATABASE IF NOT EXISTS " + db_name +";"
+        createSchema = "CREATE DATABASE IF NOT EXISTS " + c.db_name +";"
         cursor.execute(createSchema)
         
         if (connection.is_connected()):
@@ -185,7 +178,7 @@ def main():
     bikeData = getData(url)
    
     # connection to database
-    connection = mysql.connector.connect(host=host, database=db_name, user=user, password=password)
+    connection = mysql.connector.connect(host=c.host, database=c.db_name, user=c.user, password=c.password)
     
     # function call to fill DB with dynamic data
     updateDynBikeTbl(bikeData)

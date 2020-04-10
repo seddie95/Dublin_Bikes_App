@@ -76,6 +76,11 @@ function fetchWeather() {
             }
         })
 
+        // catch used to test if something went wrong when parsing or in the network
+        .catch(function (error) {
+           console.error("Difficulty Connecting to Weather API:", error);
+        });
+
     //update weather every 5 minutes
     setTimeout(fetchWeather, 60000*5);
 }

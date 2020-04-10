@@ -60,10 +60,14 @@ function initMap() {
                     // set the map to be equal to the div with id "map"
                     map = new google.maps.Map(document.getElementById("map"), {
                        zoom: 14,
+                       mapTypeControl: false
                     });
 
-                    // render the bicycle route
-                    directionsRenderer.setMap(map);
+                    // Create the DIV to hold the control and call the bikeControl()
+                    var bikeControlDiv = document.createElement('div');
+                    var centerControl = new bikeControl(bikeControlDiv, map);
+                    bikeControlDiv.index = 1;
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(bikeControlDiv);
 
                     // create an infowindow to store the dynamic data
                     infowindow = new google.maps.InfoWindow();
@@ -84,15 +88,15 @@ function initMap() {
                     });
 
                     markers[0] = marker;
-
+                    // test if user allows for their location to be known
                     if(navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
                             userLocation = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude
                             };
-
-                            map.setCenter(userLocation);
+                        // set the users location as the center of the map
+                        map.setCenter(userLocation);
 
                             const latlng = new google.maps.LatLng(userLocation.lat, userLocation.lng);
                             markers[0].setPosition(latlng);
@@ -140,12 +144,12 @@ function initMap() {
                         // set the bike icon to blue if  status is open or grey if closed
                         var icon;
                         if (staticData[i].Station_Status === 'OPEN') {
-                           icon = "/static//icons/bikeIcon.png";
+                           icon = "/static/icons/bikeIcon.png";
                         } else {
-                           icon = "/static//icons/closedIcon.png";
+                           icon = "/static/icons/closedIcon.png";
                         }
 
-                        // set the  of the markers using the longitude and latitude of the station
+                        // set the position of the markers using the longitude and latitude of the station
                         marker = new google.maps.Marker({
                            position: {
                                lat: parseFloat(staticData[i].Pos_Lat),
@@ -180,9 +184,12 @@ function initMap() {
 
                         // add listener to zoom to the location of the marker and display content
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                                // get route
-
                                 return function() {
+                                // hide the duration infowindow and bike route if it exists
+                                if(infowindow2){
+                                    infowindow2.close();
+                                    directionsRenderer.setMap(null);
+                                }
                                     //change css of tag elements
                                     document.getElementById("main").style.margin = "0px 40px"
 
@@ -212,7 +219,7 @@ function initMap() {
                                     }
 
                                     marker.setIcon({
-                                        url: "/static//icons/selectBike.png",
+                                        url: "/static/icons/selectBike.png",
                                         scaledSize: new google.maps.Size(60, 60)});
 
                                     selectedMarker = marker;
@@ -222,33 +229,23 @@ function initMap() {
                                     // Set the content of the info window to display the dynamic bike data
                                     infowindow.setContent(
                                         "<div id='infowindow'>" +
-                                            "<p id='update' class='Infotitle'>Updated:</p> <p class='Infovalue'>" +
+                                            "<span id='update' class='Infotitle'>Updated:</span> <span class='Infovalue'>" +
                                                 new Date(last_update).toLocaleDateString()+ " " +
-                                                new Date(last_update).toLocaleTimeString() + "</p> <br>" +
-                                            "<p id='station' class='Infotitle'>Station:</p> <p class='Infovalue'>" +
-                                                staticData[i].Stop_Name + "</p> <br>" +
-                                            "<p id='stationID' class='Infotitle'>Station ID:</p> <p class='Infovalue'>" +
-                                                staticData[i].Stop_Number.toString() +"</p> <br>" +
-                                            "<p id='bikes' class='Infotitle'>Bikes:</p> <p class='Infovalue'>" +
-                                                staticData[i].Available_Bikes.toString() +"</p> <br>" +
-                                            "<p id='spaces' class='Infotitle'>Spaces:</p> <p class='Infovalue'>" +
-                                                staticData[i].Available_Spaces.toString() +"</p> <br>" +
-                                            "<p id='banking' class='Infotitle'>Banking:</p> <p class='Infovalue'>" +
-                                                staticData[i].Banking +"</p> <br>" +
-                                            "<div id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
-                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>get route</a></div>" +
+                                                new Date(last_update).toLocaleTimeString() + "</span> <br>" +
+                                            "<span id='station' class='Infotitle'>Station:</span> <span class='Infovalue'>" +
+                                                staticData[i].Stop_Address + "</span> <br>" +
+                                            "<span id='stationID' class='Infotitle'>Station ID:</span> <span class='Infovalue'>" +
+                                                staticData[i].Stop_Number.toString() +"</span> <br>" +
+                                            "<span id='bikes' class='Infotitle'>Bikes:</span> <span class='Infovalue'>" +
+                                                staticData[i].Available_Bikes.toString() +"</span> <br>" +
+                                            "<span id='spaces' class='Infotitle'>Spaces:</span> <span class='Infovalue'>" +
+                                                staticData[i].Available_Spaces.toString() +"</span> <br>" +
+                                            "<span id='banking' class='Infotitle'>Banking:</span> <span class='Infovalue'>" +
+                                                staticData[i].Banking +"</span> <br>" +
+                                            "<span id='route'><a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer" +
+                                            ",userLocation,selectedMarker)' href='javascript:void(0);'>Get walking route</a></span>" +
                                         "</div>");
 
-
-                                              //   "Updated: " + new Date(last_update).toLocaleDateString()+ " " +
-                                              //   new Date(last_update).toLocaleTimeString() + "<br>" +
-                                              //   "Station: " + staticData[i].Stop_Name + "<br>" +
-                                              //  "Station ID: " + staticData[i].Stop_Number.toString() +"<br>" +
-                                              //  "Bikes: " + staticData[i].Available_Bikes.toString() +"<br>"+
-                                              //  "Spaces: " +staticData[i].Available_Spaces.toString() +"<br>"+
-                                              //  "Banking: " + staticData[i].Banking +"<br>"+
-                                              // "<a onclick='calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,selectedMarker)' href='javascript:void(0);'>get route</a>"
-                                              //  );
                                     infowindow.open(map, marker);
                                 }
                               })(marker, i));
@@ -258,7 +255,7 @@ function initMap() {
            })
            // catch used to test if something went wrong when parsing or in the network
            .catch(function (error) {
-               console.error("Somethings wrong:", error);
+               console.error("Difficulty fetching real-time bike data:", error);
                console.error(error);
            });
         // call the function every minute to update the information
@@ -307,22 +304,6 @@ function showBikes(map,array) {
     }
 }
 
-// function to show or hide the bike layer
-function hideBikeLayer(){
-// if the bike layer is showing hide it
-if (bikeLayer){
-    bikeLayer.setMap(null);
-    bikeLayer = null;
-    }
-
-// if bike layer hidden show it
-else{
-    bikeLayer = new google.maps.BicyclingLayer();
-    bikeLayer.setMap(map);
-    }
-
-}
-
 //-----------------------------------------------------------
 //function to calculate the route between user and marker
 function calculateAndDisplayRoute(directionsService, directionsRenderer,userLocation,marker) {
@@ -348,12 +329,15 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
 
                 // display the polyline response on the map
                 directionsRenderer.setDirections(response);
+                directionsRenderer.setMap(map)
+
                 // close the main infowindows
                 infowindow.close();
 
-                //close the travel infowindow if it exists
+                //close the travel infowindow if it exists and show the route
                 if(infowindow2){
                     infowindow2.close();
+                    directionsRenderer.setMap(map);
                 }
                 // create new infowindows to display the distance and duration
                 infowindow2 = new google.maps.InfoWindow();
@@ -369,3 +353,38 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
           }
         });
 }
+//----------------------------------------------------------------------
+//function to show and hide the bike layer
+function bikeControl(controlDiv, map) {
+
+    // Set CSS for the button
+    var controlUI = document.createElement('div');
+    controlUI.setAttribute("id", "bike-button");
+    controlUI.title = 'Click to show or hide the bicyle layer';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the button's text.
+    var controlText = document.createElement('div');
+    controlText.setAttribute("id", "bike-text");
+    controlText.innerHTML = 'Show Bike Layer';
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener('click', function() {
+        // if the bike layer is showing hide it
+        if (bikeLayer){
+            controlText.innerHTML = 'Show Bike Layer';
+            bikeLayer.setMap(null);
+            bikeLayer = null;
+            }
+
+        // if bike layer hidden show it
+        else{
+            controlText.innerHTML = 'Hide Bike Layer';
+            bikeLayer = new google.maps.BicyclingLayer();
+            bikeLayer.setMap(map);
+            }
+  });
+
+}
+

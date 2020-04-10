@@ -18,7 +18,12 @@ function getGraphData(){
                // use the static data to create dictionary
            }).then(function (obj) {
            WeeklyGraphData = obj.available;
-           });
+           })
+
+       // catch used to test if something went wrong when parsing or in the network
+       .catch(function (error) {
+           console.error("Difficulty fetching data for weekly graph:", error);
+       });
 
 
        //get weekly data for bike stations using fetch
@@ -35,7 +40,13 @@ function getGraphData(){
                // use the static data to create dictionary
            }).then(function (obj) {
            HourlyGraphData = obj.available;
-           });
+           })
+
+          // catch used to test if something went wrong when parsing or in the network
+       .catch(function (error) {
+           console.error("Difficulty fetching data for hourly graph:", error);
+       });
+
 
         // call the function every minute to update the information
         // setTimeout(getGraphData,60000);

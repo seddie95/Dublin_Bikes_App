@@ -2,7 +2,7 @@ import sys
 import requests
 import mysql.connector
 from mysql.connector import Error
-
+import GetData.config as c
 
 def main():
     print("Started")
@@ -14,7 +14,7 @@ def main():
 
     try:
         # Connect to database and create schema if not existing
-        connection = mysql.connector.connect(host=host, user=user, password=password)
+        connection = mysql.connector.connect(host=c.host, user=c.user, password=c.password)
         cursor = connection.cursor()
         createSchema = "CREATE DATABASE IF NOT EXISTS " + db_name + ";"
         cursor.execute(createSchema)
@@ -53,7 +53,7 @@ def main():
             tblName = "weatherDynamic"
 
             # connection to database
-            connection = mysql.connector.connect(host=host, database=db_name, user=user, password=password)
+            connection = mysql.connector.connect(host=c.host, database=c.db_name, user=c.user, password=c.password)
 
             # if successfully connected
             if connection.is_connected():

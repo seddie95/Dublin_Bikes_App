@@ -16,6 +16,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
+
     <title>Dublin Bike</title>
 {% endblock %}
 
@@ -121,12 +122,6 @@
                         onclick="showAvailableStands();">
                         <label for="HideBikes">Available Spaces</label><br>
                     </div>
-
-                     <div>
-                        <input id="HideBikeLayer" type=radio class="radioButton" name="Display Bike Layer" value="Hide Bike Layer"
-                        onclick="hideBikeLayer();">
-                        <label for="HideBikeLayer">Toggle Bike Layer</label><br>
-                    </div>
                 </div>
             </div>
             </td>
@@ -162,7 +157,7 @@
         <div id="predictHeader">Planning a trip for later? Select a date and time to view predicted bike
                                 availability for this station
         </div>
-           <script type="text/javascript" src="{{ url_for('static', filename='/javascript/dateTime.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='/javascript/dateTime.js') }}"></script>
         <form>
             <input type="text" id="pdate" placeholder="Prediction Date" autocomplete="off" name="pdate"
                    value="select date">
