@@ -1,71 +1,71 @@
 * {
-        box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body{
-        margin: 0;
-        min-width: 1624px;
+    margin: 0;
+    min-width: 1624px;
 }
 
 header{
-        height: 150px;
-        background-color: #4169B9;
+    height: 150px;
+    background-color: #4169B9;
 }
 
 header a{
-        text-decoration: none;
-        color: white;
+    text-decoration: none;
+    color: white;
 }
 
 #titleClock{
-        float: left;
-        width: 95%;
-        height: 145px;
+    float: left;
+    width: 95%;
+    height: 145px;
 }
 
 #title{
-        text-align: center;
-        padding: 0px 0px 10px 50px;
-        color: white;
+    text-align: center;
+    padding: 0px 0px 10px 50px;
+    color: white;
 }
 
 #sm-icons{
-        padding: 0px 4px;
-        text-align: right;
-        float: right;
-        height: 145px;
-        width: 5%;
-        max-width: 50px;
+    padding: 0px 4px;
+    text-align: right;
+    float: right;
+    height: 145px;
+    width: 5%;
+    max-width: 50px;
 }
 
 #sm-icons a{
-        width: 25px;
-        height: 25px;
-        font-size: 20px;
-        text-decoration: none;
-        color: white;
-        padding: 2px;
-        margin: 4px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    padding: 2px;
+    margin: 4px;
 }
 
 #date-time{
-        padding: 10px 20px 0px 20px;
-        font-family: 'Open Sans', sans-serif;
-        color: white;
+    padding: 10px 20px 0px 20px;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
 }
 
 
 main{
-        display: table;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 10px 0px;
-        color: #2f2f2f
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0px;
+    color: #2f2f2f
 }
 
 #selections{
         display: table;
-        width: 1080px;
+        width: 1040px;
 }
 
 #stationSelect{
@@ -87,44 +87,44 @@ main{
 }
 
 #radioButtons{
-        display: table;
-        width: 60%;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
-        font-size: 14px;
-        float: left;
+    display: table;
+    width: 60%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    float: left;
 }
 
 #radioButtons div{
-        float: left;
-        padding: 2px;
+    float: left;
+    padding: 2px;
 }
 
 
 #currentWeather{
-        display: table;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
-        width: 1080px;
+    display: table;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    width: 1040px;
 }
 
 #sunrise ,#sunset, #temperature, #tempFeeling,
 #wind,#humidity{
-        display: table;
-        width: 14%;
-        float: left;
-        padding: 5px 10px;
+    display: table;
+    width: 14%;
+    float: left;
+    padding: 5px 10px;
 }
 
 #weather{
-        display: table;
-        width: 16%;
-        padding: 5px 10px;
+    display: table;
+    width: 16%;
+    padding: 5px 10px;
 }
 
 #weather img{
-        margin-left: 30px;
-        width: 40px;
+    margin-left: 30px;
+    width: 40px;
 }
 
 #sunrise img,
@@ -133,8 +133,8 @@ main{
 #tempFeeling img,
 #wind img,
 #humidity img {
-        width: 30px;
-        padding: 4px;
+    width: 30px;
+    padding: 4px;
 }
 
 
@@ -144,8 +144,8 @@ main{
 #tempFeeling div,
 #wind div,
 #humidity div {
-        display: table;
-        padding: 4px;
+    display: table;
+    padding: 4px;
 }
 
 #sunrise img, #sunrise div,
@@ -161,28 +161,26 @@ main{
 
 #map {
     height: 450px;
-    width: 1080px;
-    margin: 5px 0px
+    width: 1040px;
+    margin: 5px 0px;
+    float: left;
 }
 
 /* Styling for ML prediction section */
 
 .prediction {
-    margin: 20px auto;
+    margin: 0px auto;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     background-color: #4169B9;
     color: white;
+    clear: both;
 }
 
 #predictHeader {
     font-size: 18px;
     padding-top: 20px;
     padding-bottom: 10px;
-}
-
-form {
-    padding-bottom: 15px;
 }
 
 #predictionOutput {
@@ -242,10 +240,12 @@ footer table td span:hover {
 
 #graphs {
     height: 460px;
+    display: none;
+    float: left;
 }
 
-#main_table {
-    border-spacing: 0px;
+#maindiv{
+    float: left;
 }
 
 #dashboard_div {
@@ -279,23 +279,15 @@ footer table td span:hover {
     margin-top: 10px;
 }
 
-#route a {
-    color:blue;
-}
-
-#route a:hover {
-     color:DeepSkyBlue;
-}
-
 #bike-button {
     background-color: #fff;
     border: 2px solid #fff;
     border-radius: 3px;
-    box-shadow: 0 2px 6px rgbA(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     cursor: pointer;
     margin-top: 10px;
     margin-bottom: 22px;
-    margin-left: 15px;
+    margin-left: -12px;
     text-align: center;
 
 }

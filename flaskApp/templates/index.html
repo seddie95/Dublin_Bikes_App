@@ -40,119 +40,105 @@
 </header>
 
 <main id="main">
-    <table id="main_table">
-        <tr>
-            <td id="td_weather">
-            <div id="currentWeather">
-                <div id="sunrise">
-                    <img id="sunriseIcon" src="/static/icons/sunrise.png">
-                    <div id="sunriseVal"></div>
-                </div>
 
-                <div id="sunset">
-                    <img id="sunsetIcon" src="/static/icons/sunset.png">
-                    <div id="sunsetVal"></div>
-                </div>
+    <div id="currentWeather">
+        <div id="sunrise">
+            <img id="sunriseIcon" src="/static/icons/sunrise.png">
+            <div id="sunriseVal"></div>
+        </div>
 
-                <div id="temperature">
-                    <img id="temperatureIcon" src="/static/icons/temperature.png">
-                    <div id="temperatureVal"></div>
-                </div>
+        <div id="sunset">
+            <img id="sunsetIcon" src="/static/icons/sunset.png">
+            <div id="sunsetVal"></div>
+        </div>
 
-                <div id="tempFeeling">
-                    <img id="temperatureIcon2" src="/static/icons/temperature.png">
-                    <div id="tempFeelingVal"></div>
-                </div>
+        <div id="temperature">
+            <img id="temperatureIcon" src="/static/icons/temperature.png">
+            <div id="temperatureVal"></div>
+        </div>
 
-                <div id="humidity">
-                    <img id="humidityIcon" src="/static/icons/humidity.png">
-                    <div id="humidityVal"></div>
-                </div>
+        <div id="tempFeeling">
+            <img id="temperatureIcon2" src="/static/icons/temperature.png">
+            <div id="tempFeelingVal"></div>
+        </div>
 
-                <div id="wind">
-                    <img id="windIcon" src="/static/icons/wind.png">
-                    <div id="windVal"></div>
-                </div>
+        <div id="humidity">
+            <img id="humidityIcon" src="/static/icons/humidity.png">
+            <div id="humidityVal"></div>
+        </div>
 
-                <div id="weather">
-                    <img id="weatherIcon" src="/static/icons/Cloud.png">
-                </div>
+        <div id="wind">
+            <img id="windIcon" src="/static/icons/wind.png">
+            <div id="windVal"></div>
+        </div>
+
+        <div id="weather">
+            <img id="weatherIcon" src="/static/icons/Cloud.png">
+        </div>
+    </div>
+
+    <div id="selections">
+        <form id="stationSelect">
+            <div>
+                <!-- Code for dropdown to select bike station-->
+                <select id="stops-dd" onchange="triggerMarker(value);">
+                    <option value="default" selected disabled>ID | Address</option>
+
+                    {% for data in datalist %}
+                    <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
+                    {% endfor %}
+                </select>
             </div>
-            </td>
-        </tr>
 
+            <div>
+                <!-- on click reset dropdown and display default map setting-->
+                <button class="button" type="reset" onclick="triggerMarker(0)">Reset</button>
+            </div>
+        </form>
 
-        <tr>
-            <td id="td_selection">
-            <div id="selections">
-                <form id="stationSelect">
-                    <div>
-                        <!-- Code for dropdown to select bike station-->
-                        <select id="stops-dd" onchange="triggerMarker(value);">
-                            <option value="default" selected disabled>ID | Address</option>
+        <!--        here is the radio buttons for  selecting the data to be shown-->
+        <div id="radioButtons">
+            <div>
+                <input id="ShowAllMarkers" type=radio class="radioButton" name="Display Markers" value="Show All Markers"
+                onclick="showMarkers();" checked>
+                <label for="ShowAllMarkers"> All Stations</label><br>
+            </div>
 
-                            {% for data in datalist %}
-                            <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+            <div>
+                <input id="HideStands" type=radio class="radioButton" name="Display Markers" value="Hide Stands"
+                onclick="showAvailableBikes();" >
+                <label for="HideStands">Available Bikes</label><br>
+            </div>
 
-                    <div>
-                        <!-- on click reset dropdown and display default map setting-->
-                        <button class="button" type="reset" onclick="triggerMarker(0)">Reset</button>
-                    </div>
-                </form>
+            <div>
+                <input id="HideBikes" type=radio class="radioButton" name="Display Markers" value="Hide Bikes"
+                onclick="showAvailableStands();">
+                <label for="HideBikes">Available Spaces</label><br>
+            </div>
+        </div>
+    </div>
 
-                <!--        here is the radio buttons for  selecting the data to be shown-->
-                <div id="radioButtons">
-                    <div>
-                        <input id="ShowAllMarkers" type=radio class="radioButton" name="Display Markers" value="Show All Markers"
-                        onclick="showMarkers();" checked>
-                        <label for="ShowAllMarkers"> All Stations</label><br>
-                    </div>
+    <div id="maindiv">
+        <div id="map">
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa9dak2Kr9KQGGwO556T2g3m-j0ohYX64&callback=initMap">
+            </script>
+        </div>
 
-                    <div>
-                        <input id="HideStands" type=radio class="radioButton" name="Display Markers" value="Hide Stands"
-                        onclick="showAvailableBikes();" >
-                        <label for="HideStands">Available Bikes</label><br>
-                    </div>
+        <div id="graphs">
+            <div id="weeklyStation"></div>
 
-                    <div>
-                        <input id="HideBikes" type=radio class="radioButton" name="Display Markers" value="Hide Bikes"
-                        onclick="showAvailableStands();">
-                        <label for="HideBikes">Available Spaces</label><br>
-                    </div>
+            <div id="dashboard_div">
+                <div id="control_div">
+                    <div id="slider_div"></div>
+                    <div id="filter_div"></div>
                 </div>
+                <div id="chart_div"></div>
+                <!--code for taking users prediction dates and passing them to the flask app-->
             </div>
-            </td>
-        </tr>
+        </div>
+    </div>
 
-
-        <tr>
-            <td id="td_map">
-            <div id="map">
-                <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa9dak2Kr9KQGGwO556T2g3m-j0ohYX64&callback=initMap">
-                </script>
-            </div>
-            </td>
-
-            <td id="td_graphs">
-            <div id="graphs">
-                <div id="weeklyStation"></div>
-
-                <div id="dashboard_div">
-                    <div id="control_div">
-                        <div id="slider_div"></div>
-                        <div id="filter_div"></div>
-                    </div>
-                    <div id="chart_div"></div>
-                    <!--code for taking users prediction dates and passing them to the flask app-->
-                </div>
-            </div>
-            </td>
-        </tr>
-    </table>
     <div class="prediction" id="predictionData">
         <div id="predictHeader">Planning a trip for later? Select a date and time to view predicted bike
                                 availability for this station

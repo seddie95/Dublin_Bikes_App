@@ -48,7 +48,6 @@ function initMap() {
             headers: new Headers({
                 "content-type": "application/json"
             })
-
        }).then(function (response) {
                return response.json();
                // use the static data to create dictionary
@@ -191,7 +190,8 @@ function initMap() {
                                     directionsRenderer.setMap(null);
                                 }
                                     //change css of tag elements
-                                    document.getElementById("main").style.margin = "0px 40px"
+                                    document.getElementById("main").style.padding = "0px 40px";
+                                    document.getElementById("graphs").style.display = "block";
 
                                     // set the dropdown value to match the clicked marker
                                     document.getElementById("stops-dd").value = staticData[i].Stop_Number;
@@ -259,7 +259,7 @@ function initMap() {
                console.error(error);
            });
         // call the function every minute to update the information
-        // setTimeout(initMap,60000);
+        setTimeout(initMap,60000);
 }
 
 
