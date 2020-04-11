@@ -56,7 +56,7 @@ function getGraphData(){
 function updateGraphs(stationID){
     ID = stationID;
 
-    // Load the Visualization API and the piechart package.
+    // Load the Visualization API and the corechart package.
     google.charts.load("current", {"packages":["corechart"]});
 
     // Weekly Chart
@@ -84,11 +84,16 @@ function updateGraphs(stationID){
         }
 
         var options = {
-            title: 'Station ID: ' + stationID.toString(),
+            title: 'Average availability at this station',
+            titleTextStyle: {
+                color: '#2f2f2f',
+                fontSize: 14
+            },
             width: 500,
             height: 200,
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            fontName: 'Open Sans'
         };
 
         // Instantiate and draw our chart, passing in some options.
@@ -98,7 +103,7 @@ function updateGraphs(stationID){
     }
 
 
-    //hourly Chart
+    // Hourly Chart
     // Load the Visualization API and the piechart package.
     google.charts.load('current', {'packages':['corechart', 'controls']});
 
@@ -114,9 +119,14 @@ function updateGraphs(stationID){
             'controlType': 'NumberRangeFilter',
             'containerId': 'slider_div',
             'options': {
-                'filterColumnLabel': 'Hours'
+                'filterColumnLabel': 'Hours',
+                'ui': {
+                    'label': "Time:"
+                }
+                // Remove if not needed later
+      //          'ui.cssClass': 	'google-visualization-controls-rangefilter',
             },
-            'state': {'lowValue': 0, 'highValue': 24}
+            'state': {'lowValue': 0, 'highValue': 23}
         });
 
         // create a filter
@@ -129,7 +139,9 @@ function updateGraphs(stationID){
                     'allowMultiple' : false,
                     'allowNone' : false,
                     'selectedValuesLayout' : 'below',
-                    'sortValues' : false
+                    'sortValues' : false,
+                    'label': "",
+      //              'cssClass': 'google-visualization-controls-categoryfilter',
                 }
             },
         });
@@ -138,12 +150,16 @@ function updateGraphs(stationID){
             'chartType': 'LineChart',
             'containerId': 'chart_div',
             'options': {
-                'title': 'Station ID: ' + stationID.toString(),
+        //        'title': "",
                 'width': 500,
                 'height': 200,
                 'legend': 'bottom',
-            },
-            'view': {'columns': [1,2,3]}
+                'fontName': 'Open Sans',
+                'hAxis': {
+                    'ticks': [{v:0, f:'0:00'}, {v:10, f:'10:00'}, {v:20, f:'20:00'}],
+                    },
+                },
+            'view': {'columns': [1,2,3]},
         });
 
         // // Create our data table out of JSON data loaded from server.
@@ -151,8 +167,8 @@ function updateGraphs(stationID){
 
         data.addColumn('string', 'Weekday');
         data.addColumn('number', 'Hours');
-        data.addColumn('number', 'Available_Bikes');
-        data.addColumn('number', 'Available_Spaces');
+        data.addColumn('number', 'Available Bikes');
+        data.addColumn('number', 'Available Spaces');
 
         for (var i=0;i<HourlyGraphData.length;i++){
             if(HourlyGraphData[i].Stop_Number == ID) {

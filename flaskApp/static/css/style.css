@@ -246,8 +246,58 @@ footer table td span:hover {
     float: left;
 }
 
+/* Styling for the graphs */
+
 #dashboard_div {
     margin-top: 15px;
+}
+
+
+.google-visualization-controls-categoryfilter {
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    color: #2f2f2f;
+}
+
+.google-visualization-controls-categoryfilter .goog-combobox input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #2f2f2f;
+    width: 70%;
+}
+
+#slider_div {
+    width:75%;
+    display: inline-block;
+    text-align: left;
+    float:left;
+}
+
+#filter_div {
+    width: 25%;
+    display: inline-block;
+    text-align: right;
+}
+
+.google-visualization-controls-rangefilter {
+    font-family: 'Open Sans', sans-serif;
+    color: #2f2f2f;
+    width: 100%;
+}
+
+.google-visualization-controls-rangefilter .google-visualization-controls-label {
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: inherit;
+}
+
+.google-visualization-controls-rangefilter .google-visualization-controls-slider-thumb {
+    background-color: #4169B9;
+}
+
+.google-visualization-controls-rangefilter .google-visualization-controls-rangefilter-thumblabel{
+    color: #2f2f2f;
+    font-size: 12px;
 }
 
 #infowindow a {
