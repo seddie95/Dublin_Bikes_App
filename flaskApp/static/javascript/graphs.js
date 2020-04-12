@@ -84,7 +84,7 @@ function updateGraphs(stationID){
         }
 
         var options = {
-            title: 'Average availability at this station',
+            title: 'Average daily availability at this station',
             titleTextStyle: {
                 color: '#2f2f2f',
                 fontSize: 14
@@ -93,7 +93,7 @@ function updateGraphs(stationID){
             height: 200,
             curveType: 'function',
             legend: { position: 'bottom' },
-            fontName: 'Open Sans'
+            fontName: 'Open Sans',
         };
 
         // Instantiate and draw our chart, passing in some options.
@@ -104,7 +104,7 @@ function updateGraphs(stationID){
 
 
     // Hourly Chart
-    // Load the Visualization API and the piechart package.
+    // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart', 'controls']});
 
     // Set a callback to run when the Google Visualization API is loaded.
@@ -121,7 +121,7 @@ function updateGraphs(stationID){
             'options': {
                 'filterColumnLabel': 'Hours',
                 'ui': {
-                    'label': "Time:"
+                    'label': ""
                 }
                 // Remove if not needed later
       //          'ui.cssClass': 	'google-visualization-controls-rangefilter',
@@ -150,13 +150,17 @@ function updateGraphs(stationID){
             'chartType': 'LineChart',
             'containerId': 'chart_div',
             'options': {
-        //        'title': "",
+                'title': 'Average hourly availability at this station',
+                'titleTextStyle': {
+                    'color': '#2f2f2f',
+                    'fontSize': 14
+                    },
                 'width': 500,
                 'height': 200,
                 'legend': 'bottom',
                 'fontName': 'Open Sans',
                 'hAxis': {
-                    'ticks': [{v:0, f:'0:00'}, {v:10, f:'10:00'}, {v:20, f:'20:00'}],
+                    'ticks': [{v:0, f:'0:00'},{v:5, f:'05:00'}, {v:10, f:'10:00'}, {v:15, f:'15:00'}, {v:20, f:'20:00'}],
                     },
                 },
             'view': {'columns': [1,2,3]},
