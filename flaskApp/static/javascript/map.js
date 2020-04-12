@@ -315,7 +315,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
         {
           origin: userLocation,
           destination: marker.position,
-          travelMode: 'BICYCLING'
+          travelMode: 'WALKING'
         },
         function(response, status) {
             if (status === 'OK') {
@@ -342,8 +342,8 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer,userLoca
                 // create new infowindows to display the distance and duration
                 infowindow2 = new google.maps.InfoWindow();
                 infowindow2.setContent(
-                     "Duration: " + duration + "<br>" +
-                     "Distance: " + distance + "<br>" +
+                     "Walking Duration: " + duration + "<br>" +
+                     "Walking Distance: " + distance + "<br>" +
                      "C0<sub>2</sub> Prevented: " + c02 + "g"
                 );
                 infowindow2.setPosition(response.routes[0].legs[0].steps[1].end_location);
