@@ -76,8 +76,8 @@ function updateGraphs(stationID){
                 data.addRows([
                     [
                     WeeklyGraphData[i].Weekday.substring(0,3),
-                    parseFloat(WeeklyGraphData[i].Available_Bikes),
-                    parseFloat(WeeklyGraphData[i].Available_Spaces)
+                    Math.round(parseFloat(WeeklyGraphData[i].Available_Bikes)),
+                    Math.round(parseFloat(WeeklyGraphData[i].Available_Spaces))
                     ]
                 ]);
             }
@@ -125,8 +125,12 @@ function updateGraphs(stationID){
             'options': {
                 'filterColumnLabel': 'Hours',
                 'ui': {
-                    'label': ""
-                }
+                    'label': "",
+                    'format': {
+                        'fractionDigits': 0,
+                        'suffix': ":00",
+                    },
+                },
                 // Remove if not needed later
       //          'ui.cssClass': 	'google-visualization-controls-rangefilter',
             },
@@ -184,13 +188,15 @@ function updateGraphs(stationID){
                     [
                     HourlyGraphData[i].Weekday,
                     parseInt(HourlyGraphData[i].Hours),
-                    parseFloat(HourlyGraphData[i].AvgBike),
-                    parseFloat(HourlyGraphData[i].AvgSpace)
+                    Math.round(parseFloat(HourlyGraphData[i].AvgBike)),
+                    Math.round(parseFloat(HourlyGraphData[i].AvgSpace))
                     ]
                 ]);
             }
         }
 
+        var formatter = new google.visualization.NumberFormat({suffix: ':00', fractionDigits: 0});
+        formatter.format(data, 1); // Apply formatter to second column
 
         dashboard.bind([slider,filter], chart);
         dashboard.draw(data);
