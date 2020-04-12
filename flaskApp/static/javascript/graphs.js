@@ -68,14 +68,14 @@ function updateGraphs(stationID){
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Weekday');
-        data.addColumn('number', 'Available_Bikes');
-        data.addColumn('number', 'Available_Spaces');
+        data.addColumn('number', 'Available Bikes');
+        data.addColumn('number', 'Available Spaces');
 
         for (var i=0;i<WeeklyGraphData.length;i++){
             if(WeeklyGraphData[i].Stop_Number == ID) {
                 data.addRows([
                     [
-                    WeeklyGraphData[i].Weekday,
+                    WeeklyGraphData[i].Weekday.substring(0,3),
                     parseFloat(WeeklyGraphData[i].Available_Bikes),
                     parseFloat(WeeklyGraphData[i].Available_Spaces)
                     ]
@@ -94,6 +94,10 @@ function updateGraphs(stationID){
             curveType: 'function',
             legend: { position: 'bottom' },
             fontName: 'Open Sans',
+            hAxis: {
+                slantedText: false,
+                showTextEvery: 1,
+            },
         };
 
         // Instantiate and draw our chart, passing in some options.
