@@ -84,7 +84,7 @@ function updateGraphs(stationID){
         }
 
         var options = {
-            title: 'Average daily availability at this station',
+            title: 'Average daily availability at station no. ' + stationID.toString(),
             titleTextStyle: {
                 color: '#2f2f2f',
                 fontSize: 14
@@ -158,7 +158,7 @@ function updateGraphs(stationID){
             'chartType': 'LineChart',
             'containerId': 'chart_div',
             'options': {
-                'title': 'Average hourly availability at this station',
+                'title': 'Average hourly availability at station no. ' + stationID.toString(),
                 'titleTextStyle': {
                     'color': '#2f2f2f',
                     'fontSize': 14
