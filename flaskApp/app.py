@@ -4,8 +4,11 @@ from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
 from flaskApp.prediction_api import makePrediction
 import GetData.config as c
+from flask_caching import Cache
 
 app = Flask(__name__)
+# Check Configuring Flask-Caching section for more details
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 # Create errorlog text-file to store all the non http errors
 if not app.debug:
@@ -31,7 +34,9 @@ def get_db():
 
 # Route for the home page that renders the base.html template
 # gets the static data from the rds to populate the drop downs
+# cache the static data for a full day
 @app.route('/')
+@cache.cached(timeout=86400)
 def base():
     """Function to retrieve the static data from the database and return it as either json or pass it to the
     html using jinja for the purpose of displaying the map data."""
@@ -60,8 +65,9 @@ def base():
                '<br> <a href="/">Home</a>'
 
 
-# route for providing the dynamic information for a given station id
+# route for providing the dynamic information for a given station id cache the result for 50 seconds
 @app.route("/dynamic", methods=['POST'])
+@cache.cached(timeout=50)
 def get_stations():
     try:
         # Create the engine and store the output in the data list
@@ -97,8 +103,9 @@ def get_stations():
                '<br> <a href="/">Home</a>'
 
 
-# route for providing the graph data
+# route for providing the graph data, cache result for 30 minutes
 @app.route("/WeeklyGraph", methods=['POST'])
+@cache.cached(timeout=1800)
 def get_weeklyGraphData():
     try:
         # Create  the engine and store the data in the data list
@@ -135,8 +142,9 @@ def get_weeklyGraphData():
                '<br> <a href="/">Home</a>'
 
 
-# route for providing the graph data
+# route for providing the graph data, cache result for 30 minutes
 @app.route("/HourlyGraph", methods=['POST'])
+@cache.cached(timeout=1800)
 def get_hourlyGraphData():
     try:
         # Create  the engine and store the data in the data list
