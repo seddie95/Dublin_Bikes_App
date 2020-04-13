@@ -17,6 +17,16 @@ header a{
     color: white;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover{
+    color: white;
+    text-decoration: underline;
+}
+
 #titleClock{
     float: left;
     width: 95%;
@@ -230,10 +240,9 @@ footer p:first-child {
     font-size: 14px;
 }
 
-footer #disclaimer span:hover,
-footer table td span:hover {
-    text-decoration-line: underline;
-    cursor: pointer;
+footer #disclaimer {
+    background-color: #2f2f2f;
+
 }
 
 #graphs {
