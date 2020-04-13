@@ -175,8 +175,6 @@ main{
     float: left;
 }
 
-/* Styling for ML prediction section */
-
 .prediction {
     margin: 0px auto;
     text-align: center;
@@ -229,12 +227,6 @@ footer #disclaimer {
     float: left;
 }
 
-/* Styling for the graphs */
-
-#dashboard_div {
-    /*margin-top: 15px;*/
-}
-
 #weeklyStation {
     margin-bottom: 15px;
 }
@@ -247,7 +239,6 @@ footer #disclaimer {
 #chart_div {
     margin-bottom: 10px;
 }
-
 
 .google-visualization-controls-categoryfilter {
     font-family: 'Open Sans', sans-serif;
@@ -325,7 +316,7 @@ footer #disclaimer {
 
 
 #route a {
-    color:blue;
+    color: #4169B9;
 }
 
 #route a:hover {

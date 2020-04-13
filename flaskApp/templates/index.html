@@ -16,7 +16,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
-
     <title>Dublin Bike</title>
 {% endblock %}
 
@@ -83,7 +82,6 @@
                 <!-- Code for dropdown to select bike station-->
                 <select id="stops-dd" onchange="triggerMarker(value);">
                     <option value="default" selected disabled>ID | Address</option>
-
                     {% for data in datalist %}
                     <option value="{{data.Stop_Number}}">{{data.Stop_Number}} | {{data.Stop_Address}}</option>
                     {% endfor %}
@@ -96,7 +94,7 @@
             </div>
         </form>
 
-        <!--        here is the radio buttons for  selecting the data to be shown-->
+        <!-- radio buttons for selecting the data to be shown -->
         <div id="radioButtons">
             <div>
                 <input id="ShowAllMarkers" type=radio class="radioButton" name="Display Markers" value="Show All Markers"
@@ -127,20 +125,17 @@
 
         <div id="graphs">
             <div id="weeklyStation"></div>
-
             <div id="dashboard_div">
                 <div id="chart_div"></div>
                 <div id="control_div">
                     <div id="filter_div"></div>
                     <div id="slider_div"></div>
-
                 </div>
-
-
             </div>
         </div>
     </div>
-<!--code for taking users prediction dates and passing them to the flask app-->
+
+    <!--code for taking users prediction dates and passing them to the flask app-->
     <div class="prediction" id="predictionData">
         <div id="predictHeader">Planning a trip for later? Select a date and time to view predicted bike
                                 availability for this station
