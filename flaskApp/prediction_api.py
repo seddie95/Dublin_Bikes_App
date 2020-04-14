@@ -1,48 +1,18 @@
 import pandas as pd
 import joblib
 import time
-import requests
 from datetime import datetime
 
 
-def getWeatherForecast(station, prediction_date, prediction_time):
+def getWeatherForecast(weather_data, station, prediction_date, prediction_time):
     # create the time stamp using the date and time info
     timeString = str(prediction_date + " " + prediction_time)
     timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
 
-    # weather api url
-    url = 'http://api.openweathermap.org/data/2.5/forecast?lat=53.3498&lon=-6.2603&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric'
+    # add the station number to the weather_data dictionary
+    weather_data['Stop_Number'] = station
 
-    # use request to call the api and parse the json response
-    response = requests.get(url)
-    data = response.json()
-
-    # create variables to store the json information
-    data_list = data['list']
-    temp = []
-    realfeel = []
-    wind_speed = []
-    description = []
-    times = []
-
-    # loop through the object to retrieve the necessary weather data and place them into individual lists
-    for i in range(len(data_list)):
-        times.append(data_list[i]['dt'])
-        temp.append(data_list[i]['main']['temp'])
-        realfeel.append(data_list[i]['main']['feels_like'])
-        wind_speed.append(data_list[i]['wind']['speed'])
-        description.append(data_list[i]['weather'][0]['main'])
-
-    # Append the datalists into a dictionary
-    weather_data = {
-        'Stop_Number': station,
-        'Temperature': temp,
-        'Real_Feel': realfeel,
-        'Wind_Speed': wind_speed,
-        'Weather_Main': description,
-        'Time': times
-    }
-    # create a dataframe using the dictionary
+    # create a data-frame using the dictionary
     df = pd.DataFrame(weather_data)
 
     # find the nearest time to the timestamp
@@ -68,7 +38,7 @@ def inputPreProcessing(input):
     # Set the relevant one-hot encoded features to 1
     date = pd.to_datetime(input['Time'], unit='s')  # convert timestamp to date
     day = date.strftime("%A")  # extract day of the week
-    if day != 'Friday': # exception for first one hot encoded value
+    if day != 'Friday':  # exception for first one hot encoded value
         day = 'Day_' + day
         input_d[day] = 1
 
@@ -86,11 +56,11 @@ def inputPreProcessing(input):
     return input_df, station
 
 
-def makePrediction(station, prediction_date, prediction_time):
+def makePrediction(weather_data, station, prediction_date, prediction_time):
     """ Function that calls the data prep function, loads the model corresponding to the station selected by the
     user, runs the model and returns the predicted number of bikes available"""
     # obtain weather forecast for time selected by user
-    forecast = getWeatherForecast(station, prediction_date, prediction_time)
+    forecast = getWeatherForecast(weather_data, station, prediction_date, prediction_time)
     model_input, stop_num = inputPreProcessing(forecast)  # process user input & weather forecast data
 
     # load the model corresponding to the station number required
@@ -99,3 +69,4 @@ def makePrediction(station, prediction_date, prediction_time):
     numBikes = int(round(prediction[0][0]))
     print("prediction is: ", numBikes, "bikes available")
     return numBikes
+
