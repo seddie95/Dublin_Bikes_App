@@ -20,7 +20,7 @@ function fetchWeather() {
 
     // function to call the weather api and display weather icons and temperature in html
     //fetch('http://api.openweathermap.org/data/2.5/weather?id=7778677&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric')
-    fetch('http://127.0.0.1:5000/weather',{
+    fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/weather',{
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
