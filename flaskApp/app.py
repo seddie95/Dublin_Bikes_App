@@ -1,14 +1,22 @@
+import requests
 from flask import Flask, g, jsonify, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
 from prediction_api import makePrediction
+from weather_forecast import getWeatherForecast
+from getCurrentWeather import getCurrentWeather
 import config as c
 from flask_caching import Cache
 
 app = Flask(__name__)
 # Check Configuring Flask-Caching section for more details
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
+# call function to get weather forecast and store result as cache for 3 hours
+@cache.memoize(timeout=1800)
+def get_weather_forecast():
+    return getWeatherForecast()
 
 # Create errorlog text-file to store all the non http errors
 if not app.debug:
@@ -190,16 +198,40 @@ def get_hourlyGraphData():
                '<br> <a href="/">Home</a>'
 
 
+# route for providing the weather data, cache result for 5 minutes
+@app.route("/weather", methods=['POST'])
+@cache.cached(timeout=300)
+def get_current_weather():
+    try:
+        # Obtain the current weather for Dublin
+        return getCurrentWeather()
+
+    # Return None if there is difficulties connecting to the weather api
+    except requests.exceptions.ConnectionError:
+        return None
+
+
+
 # get the prediction data from the forms to be used as input for predictive model
 # and return the predicted value in json format
 @app.route('/predict', methods=['POST'])
 def getPredictedData():
-    # The station date and time will be taken from the link and then put into the model for prediction
-    station = request.args.get('station')
-    pDate = request.args.get('date')
-    pTime = request.args.get('time')
-    prediction = makePrediction(station, pDate, pTime)
-    return jsonify(predictions=prediction)
+    try:
+        # The station date and time will be taken from the link and then put into the model for prediction
+        station = request.args.get('station')
+        pDate = request.args.get('date')
+        pTime = request.args.get('time')
+
+        # Obtain the  weather forecast for Dublin
+        weather_data = getWeatherForecast()
+
+        # pass the station, date, time and weather information into the prediction script
+        prediction = makePrediction(weather_data, station, pDate, pTime)
+        return jsonify(predictions=prediction)
+
+    # Return None if there is difficulty connecting to the weather api
+    except requests.exceptions.ConnectionError:
+        return None
 
 
 # error handling for page not found
