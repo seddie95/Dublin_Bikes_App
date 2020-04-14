@@ -2,8 +2,8 @@ from flask import Flask, g, jsonify, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
-from flaskApp.prediction_api import makePrediction
-import GetData.config as c
+from prediction_api import makePrediction
+import config as c
 from flask_caching import Cache
 
 app = Flask(__name__)

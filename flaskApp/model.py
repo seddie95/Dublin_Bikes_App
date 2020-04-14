@@ -1,7 +1,7 @@
 # model.py - contains functions to clean & prep data and train & run model
 
 from sqlalchemy import create_engine
-import GetData.config as c
+import config as c
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import TimeSeriesSplit
