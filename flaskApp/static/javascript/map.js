@@ -40,7 +40,7 @@ function initMap() {
         });
 
        //get static data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/dynamic',{
+       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/dynamic',{
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),

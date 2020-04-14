@@ -40,7 +40,7 @@
                 } else {
                     var station = document.getElementById("stops-dd").value;
                     console.log(station);
-                    var URL = "http://127.0.0.1:5000/predict?date="+ date + "&time=" + time +"&station=" + station;
+                    var URL = "http://ec2-34-207-166-153.compute-1.amazonaws.com/predict?date="+ date + "&time=" + time +"&station=" + station;
 
                 // Send input data to ml model and retrieve prediction
                fetch(URL,{

@@ -217,4 +217,4 @@ def server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=80,host="172.31.82.72")

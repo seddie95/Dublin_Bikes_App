@@ -5,7 +5,7 @@ var ID;
 function getGraphData(){
 
        //get weekly data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/WeeklyGraph',{
+       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/WeeklyGraph',{
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
@@ -27,7 +27,7 @@ function getGraphData(){
 
 
        //get weekly data for bike stations using fetch
-       fetch('http://127.0.0.1:5000/HourlyGraph',{
+       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/HourlyGraph',{
             method: "POST",
             credentials: "include",
             body: JSON.stringify(""),
