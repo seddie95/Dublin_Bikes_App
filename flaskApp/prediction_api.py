@@ -11,7 +11,7 @@ def getWeatherForecast(station, prediction_date, prediction_time):
     timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
 
     # weather api url
-    url = 'http://api.openweathermap.org/data/2.5/forecast?lat=35&lon=139&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric'
+    url = 'http://api.openweathermap.org/data/2.5/forecast?lat=53.3498&lon=-6.2603&appid=9da3d1abfb8e1a3677d26c96350597c3&units=metric'
 
     # use request to call the api and parse the json response
     response = requests.get(url)
