@@ -169,8 +169,8 @@
 <script>
     function startTime(){
         var d = new Date();
-        document.getElementById("date-time").innerHTML = d.toUTCString();
-        setTimeout(startTime, 500);
+        document.getElementById("date-time").innerHTML = d.toString().slice(0, 24);
+        setTimeout(startTime, 1000);
     }
 
     fetchWeather();
