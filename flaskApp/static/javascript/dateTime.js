@@ -39,8 +39,8 @@
                     alert("Please select a station from the dropdown, or click on a station on the map");
                 } else {
                     var station = document.getElementById("stops-dd").value;
-                    console.log(station);
-                    var URL = "http://ec2-34-207-166-153.compute-1.amazonaws.com/predict?date="+ date + "&time=" + time +"&station=" + station;
+
+                    var URL = $SCRIPT_ROOT + "/predict?date="+ date + "&time=" + time +"&station=" + station;
 
                 // Send input data to ml model and retrieve prediction
                fetch(URL,{
@@ -57,7 +57,7 @@
                    }).then(function (obj) {
                    prediction = obj.predictions;
                    /// Display bike availability prediction
-                   console.log(prediction);
+
                    if (prediction < 0) {
                        prediction = 1;
                    }
@@ -69,5 +69,7 @@
                        prediction + " bikes available at this station on " + date + " at " + time;
                    }
                    });
+
+
                 }
         })
