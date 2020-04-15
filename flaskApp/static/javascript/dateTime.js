@@ -61,8 +61,12 @@
                        document.getElementById("predictionOutput").innerHTML = "There should be around " +
                        prediction + " bikes available at this station on " + date + " at " + time;
                    }
-                   });
-
+                   })
+                   // catch used to test if something went wrong when parsing or in the network
+                .catch(function (error) {
+                    console.error("Difficulty fetching prediction data:", error);
+                    alert("Difficulty retrieving prediction, please try again later. ");
+                });
 
                 }
         })
