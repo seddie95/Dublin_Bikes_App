@@ -43,15 +43,8 @@
                     var URL = $SCRIPT_ROOT + "/predict?date="+ date + "&time=" + time +"&station=" + station;
 
                 // Send input data to ml model and retrieve prediction
-               fetch(URL,{
-                    method: "POST",
-                    credentials: "include",
-                    body: JSON.stringify(""),
-                    cache: "no-cache",
-                    headers: new Headers({
-                        "content-type": "application/json"
-                    })
-               }).then(function (response) {
+               fetch(URL)
+               .then(function (response) {
                        return response.json();
                        // use the static data to create dictionary
                    }).then(function (obj) {
