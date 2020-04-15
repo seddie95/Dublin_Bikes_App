@@ -5,6 +5,7 @@ import mysql.connector
 from mysql.connector import Error
 import GetData.config as c
 
+
 def main():
     print("Started")
     try:
@@ -161,7 +162,6 @@ def main():
                     except:
                         pass
 
-                    
         # exception if connection failed
         except Error as e:
             print("Error while connecting to MySQL", e)
@@ -169,8 +169,7 @@ def main():
                 
             # exit the program
             sys.exit()
-      
-      
+
     # set url variable to the json link
     url = "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=4b6c99a317e1d320347b512f9262a0622815dcc2"    
       
@@ -189,10 +188,8 @@ def main():
     if (connection.is_connected()):
         cursor.close()
         connection.close()
-        print("Finished")
-            
+
+
 if __name__ == '__main__':
-
-
     main()
 
