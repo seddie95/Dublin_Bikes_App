@@ -5,47 +5,33 @@ var ID;
 function getGraphData(){
 
        //get weekly data for bike stations using fetch
-       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/WeeklyGraph',{
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(""),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
+        fetch($SCRIPT_ROOT + '/WeeklyGraph')
+            .then(function (response) {
+                return response.json();
+            // use the static data to create dictionary
             })
-       }).then(function (response) {
-               return response.json();
-               // use the static data to create dictionary
-           }).then(function (obj) {
-           WeeklyGraphData = obj.available;
-           })
-
-       // catch used to test if something went wrong when parsing or in the network
-       .catch(function (error) {
-           console.error("Difficulty fetching data for weekly graph:", error);
-       });
-
-
-       //get weekly data for bike stations using fetch
-       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/HourlyGraph',{
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(""),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
+            .then(function (obj) {
+                WeeklyGraphData = obj.available;
             })
-       }).then(function (response) {
-               return response.json();
-               // use the static data to create dictionary
-           }).then(function (obj) {
-           HourlyGraphData = obj.available;
-           })
+            // catch used to test if something went wrong when parsing or in the network
+            .catch(function (error) {
+                console.error("Difficulty fetching data for weekly graph:", error);
+            });
 
-          // catch used to test if something went wrong when parsing or in the network
-       .catch(function (error) {
-           console.error("Difficulty fetching data for hourly graph:", error);
-       });
+
+        //get weekly data for bike stations using fetch
+        fetch($SCRIPT_ROOT + '/HourlyGraph')
+            .then(function (response) {
+                return response.json();
+            // use the static data to create dictionary
+            })
+            .then(function (obj) {
+                HourlyGraphData = obj.available;
+            })
+            // catch used to test if something went wrong when parsing or in the network
+            .catch(function (error) {
+                console.error("Difficulty fetching data for hourly graph:", error);
+            });
 
 
         // call the function every minute to update the information

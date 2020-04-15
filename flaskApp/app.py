@@ -1,13 +1,14 @@
 import requests
-from flask import Flask, g, jsonify, render_template, request
+from flask import Flask, g, jsonify, render_template, request, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
-from prediction_api import makePrediction
-from weather_forecast import getWeatherForecast
-from getCurrentWeather import getCurrentWeather
-import config as c
+from flaskApp.prediction_api import makePrediction
+from flaskApp.weather_forecast import getWeatherForecast
+from flaskApp.getCurrentWeather import getCurrentWeather
+import GetData.config as c
 from flask_caching import Cache
+
 
 app = Flask(__name__)
 # Check Configuring Flask-Caching section for more details
@@ -46,6 +47,10 @@ def get_db():
 @app.route('/')
 @cache.cached(timeout=86400)
 def base():
+    if not request.script_root:
+        # this assumes that the 'index' view function handles the path '/'
+        request.script_root = url_for('base', _external=True)
+
     """Function to retrieve the static data from the database and return it as either json or pass it to the
     html using jinja for the purpose of displaying the map data."""
     # call the function get_db to connect to the database and store the response in a list
@@ -74,7 +79,7 @@ def base():
 
 
 # route for providing the dynamic information for a given station id cache the result for 50 seconds
-@app.route("/dynamic", methods=['POST'])
+@app.route("/dynamic")
 @cache.cached(timeout=50)
 def get_stations():
     try:
@@ -112,7 +117,7 @@ def get_stations():
 
 
 # route for providing the graph data, cache result for 30 minutes
-@app.route("/WeeklyGraph", methods=['POST'])
+@app.route("/WeeklyGraph")
 @cache.cached(timeout=1800)
 def get_weeklyGraphData():
     try:
@@ -151,7 +156,7 @@ def get_weeklyGraphData():
 
 
 # route for providing the graph data, cache result for 30 minutes
-@app.route("/HourlyGraph", methods=['POST'])
+@app.route("/HourlyGraph")
 @cache.cached(timeout=1800)
 def get_hourlyGraphData():
     try:
@@ -199,9 +204,9 @@ def get_hourlyGraphData():
 
 
 # route for providing the weather data, cache result for 5 minutes
-@app.route("/weather", methods=['POST'])
+@app.route("/weather")
 @cache.cached(timeout=300)
-def get_current_weather():
+def get_currentWeather():
     try:
         # Obtain the current weather for Dublin
         return getCurrentWeather()
@@ -215,7 +220,7 @@ def get_current_weather():
 # get the prediction data from the forms to be used as input for predictive model
 # and return the predicted value in json format
 @app.route('/predict', methods=['POST'])
-def getPredictedData():
+def get_PredictedData():
     try:
         # The station date and time will be taken from the link and then put into the model for prediction
         station = request.args.get('station')

@@ -39,23 +39,20 @@ function initMap() {
             suppressBicyclingLayer: true,
         });
 
+
        //get static data for bike stations using fetch
-       fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/dynamic',{
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(""),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
-            })
-       }).then(function (response) {
+        fetch($SCRIPT_ROOT + '/dynamic')
+            .then(function (response) {
                return response.json();
                // use the static data to create dictionary
-           }).then(function (obj) {
+            })
+            .then(function (obj) {
                staticData = obj.available;
 
                // set the zoom level for the first time receiving the data
                if (firstTime){
+                   staticData = obj.available;
+
                     // set the map to be equal to the div with id "map"
                     map = new google.maps.Map(document.getElementById("map"), {
                        zoom: 14,
@@ -252,12 +249,13 @@ function initMap() {
                     }
                     firstTime= false;
                }
-           })
-           // catch used to test if something went wrong when parsing or in the network
-           .catch(function (error) {
-               console.error("Difficulty fetching real-time bike data:", error);
-               console.error(error);
-           });
+            })
+            // catch used to test if something went wrong when parsing or in the network
+            .catch(function (error) {
+                console.error("Difficulty fetching real-time bike data:", error);
+                console.error(error);
+            });
+
         // call the function every minute to update the information
         setTimeout(initMap,60000);
 }

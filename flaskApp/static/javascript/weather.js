@@ -19,22 +19,14 @@ image_dict = {
 function fetchWeather() {
 
     // function to call the weather api and display weather icons and temperature in html
-    fetch('http://ec2-34-207-166-153.compute-1.amazonaws.com/weather',{
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(""),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
-            })
-        }).then(function (response) {
+    fetch($SCRIPT_ROOT + '/weather')
+        .then(function (response) {
             return response.json();
-        }).then(function (obj) {
+        })
+        .then(function (obj) {
 
             // select the weather data from the objects
             var weathertype = obj.weather[0].main;
-            console.log(weathertype)
-
             var tempVal = obj.main.temp;
             var temp = parseInt(tempVal).toString() + "°c";
             tempVal = obj.main.feels_like;
