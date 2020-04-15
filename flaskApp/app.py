@@ -107,7 +107,7 @@ def get_stations():
         if data:
             return jsonify(available=data)
         else:
-            return '<h1>Station ID not found in Database</h2>'
+            return '<h1>Station ID not found in Database</h1>'
 
     # OperationError states that the database does not exist this will be shown to the user
     except OperationalError:
@@ -146,7 +146,7 @@ def get_weeklyGraphData():
         if data:
             return jsonify(available=data)
         else:
-            return '<h1>Station ID not found in Database</h2>'
+            return '<h1>Weekly Data not found in Database</h1>'
 
     # OperationError states that the database does not exist The below message will be shown to user
     except OperationalError:
@@ -194,7 +194,7 @@ def get_hourlyGraphData():
         if data:
             return jsonify(available=data)
         else:
-            return '<h1>Station ID not found in Database</h1>'
+            return '<h1>Hourly Data not found in Database</h1>'
 
     # OperationError states that the database does not exist the below message will be returned to the user
     except OperationalError:

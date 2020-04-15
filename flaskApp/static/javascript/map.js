@@ -51,7 +51,6 @@ function initMap() {
 
                // set the zoom level for the first time receiving the data
                if (firstTime){
-                   staticData = obj.available;
 
                     // set the map to be equal to the div with id "map"
                     map = new google.maps.Map(document.getElementById("map"), {
