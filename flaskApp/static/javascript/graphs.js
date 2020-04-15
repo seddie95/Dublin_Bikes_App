@@ -50,7 +50,7 @@ function updateGraphs(stationID){
     google.charts.setOnLoadCallback(drawWeeklyChart);
 
     function drawWeeklyChart(){
-        // // Create our data table out of JSON data loaded from server.
+        // Create our data table out of JSON data loaded from server.
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Weekday');
@@ -117,8 +117,6 @@ function updateGraphs(stationID){
                         'suffix': ":00",
                     },
                 },
-                // Remove if not needed later
-      //          'ui.cssClass': 	'google-visualization-controls-rangefilter',
             },
             'state': {'lowValue': 0, 'highValue': 23}
         });
@@ -135,7 +133,6 @@ function updateGraphs(stationID){
                     'selectedValuesLayout' : 'below',
                     'sortValues' : false,
                     'label': "",
-      //              'cssClass': 'google-visualization-controls-categoryfilter',
                 }
             },
         });
@@ -187,5 +184,4 @@ function updateGraphs(stationID){
         dashboard.bind([slider,filter], chart);
         dashboard.draw(data);
     }
-
 }
