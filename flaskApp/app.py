@@ -9,15 +9,16 @@ from getCurrentWeather import getCurrentWeather
 import config as c
 from flask_caching import Cache
 
-
 app = Flask(__name__)
 # Check Configuring Flask-Caching section for more details
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
 
 # call function to get weather forecast and store result as cache for 3 hours
 @cache.memoize(timeout=1800)
 def get_weather_forecast():
     return getWeatherForecast()
+
 
 # Create errorlog text-file to store all the non http errors
 if not app.debug:
@@ -216,10 +217,9 @@ def get_currentWeather():
         return None
 
 
-
 # get the prediction data from the forms to be used as input for predictive model
 # and return the predicted value in json format
-@app.route('/predict', methods=['POST'])
+@app.route('/predict')
 def get_PredictedData():
     try:
         # The station date and time will be taken from the link and then put into the model for prediction
@@ -254,4 +254,4 @@ def server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=80,host="172.31.82.72")
+    app.run(debug=True, port=80, host="172.31.82.72")
