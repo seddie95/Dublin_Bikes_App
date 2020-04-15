@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 
-def getWeatherForecast(weather_data, station, prediction_date, prediction_time):
+def getWeatherFromTimestamp(weather_data, station, prediction_date, prediction_time):
     # create the time stamp using the date and time info
     timeString = str(prediction_date + " " + prediction_time)
     timestamp = time.mktime(datetime.strptime(timeString, '%d/%m/%Y %H:%M').timetuple())
@@ -60,7 +60,7 @@ def makePrediction(weather_data, station, prediction_date, prediction_time):
     """ Function that calls the data prep function, loads the model corresponding to the station selected by the
     user, runs the model and returns the predicted number of bikes available"""
     # obtain weather forecast for time selected by user
-    forecast = getWeatherForecast(weather_data, station, prediction_date, prediction_time)
+    forecast = getWeatherFromTimestamp(weather_data, station, prediction_date, prediction_time)
     model_input, stop_num = inputPreProcessing(forecast)  # process user input & weather forecast data
 
     # load the model corresponding to the station number required
