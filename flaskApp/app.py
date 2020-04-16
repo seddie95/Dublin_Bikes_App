@@ -3,10 +3,10 @@ from flask import Flask, g, jsonify, render_template, request, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from logging import FileHandler, WARNING
-from flaskApp.prediction_api import makePrediction
-from flaskApp.weather_forecast import getWeatherForecast
-from flaskApp.getCurrentWeather import getCurrentWeather
-import GetData.config as c
+from prediction_api import makePrediction
+from weather_forecast import getWeatherForecast
+from getCurrentWeather import getCurrentWeather
+import config as c
 from flask_caching import Cache
 
 app = Flask(__name__)

@@ -131,7 +131,18 @@ function initMap() {
                                         scaledSize: new google.maps.Size(30, 30)});
 
                                     selectedMarker = marker;
+
                                     infowindow.close();
+                                    infowindow2.close();
+                                    // bikeLayer.setMap(null);
+                                    directionsRenderer.setMap(null);
+
+                                    //change css of tag elements
+                                    document.getElementById("main").style.padding = "10px 0px";
+                                    document.getElementById("graphs").style.display = "none";
+                                    document.getElementById("pdate").value = "select date";
+                                    document.getElementById("ptime").value = "select time";
+                                    document.getElementById("predictionOutput").innerHTML = "";
                                 }
                     })(marker, i));
 
