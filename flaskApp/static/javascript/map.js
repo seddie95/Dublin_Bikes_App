@@ -132,10 +132,23 @@ function initMap() {
 
                                     selectedMarker = marker;
 
-                                    infowindow.close();
-                                    infowindow2.close();
-                                    // bikeLayer.setMap(null);
-                                    directionsRenderer.setMap(null);
+                                    if(infowindow != null){
+                                        infowindow.close();
+                                    }
+
+                                    if(infowindow2 != null){
+                                        infowindow2.close();
+                                    }
+
+                                    if(directionsRenderer != null){
+                                        directionsRenderer.setMap(null);
+                                    }
+
+                                    if(bikeLayer != null){
+                                        document.getElementById("bike-text").innerHTML = 'Show Bike Layer';
+                                        bikeLayer.setMap(null)
+                                        bikeLayer = null;
+                                    }
 
                                     //change css of tag elements
                                     document.getElementById("main").style.padding = "10px 0px";
