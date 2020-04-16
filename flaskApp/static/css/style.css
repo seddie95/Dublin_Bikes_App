@@ -79,17 +79,17 @@ main{
 }
 
 #stationSelect{
-        display: table;
-        width: 40%;
+    display: table;
+    width: 40%;
 }
 
 #stationSelect div{
-        float: left;
-        margin-right: 10px;
+    float: left;
+    margin-right: 10px;
 }
 
 #stationSelect, #radioButtons{
-        float: left;
+    float: left;
 }
 
 .button {
@@ -164,7 +164,7 @@ main{
 #tempFeeling img, #tempFeeling div,
 #wind img, #wind  div,
 #humidity img, #humidity div {
-        float: left;
+    float: left;
 }
 
 
